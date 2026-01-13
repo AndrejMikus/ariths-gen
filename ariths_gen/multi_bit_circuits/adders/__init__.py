@@ -68,3 +68,7 @@ from ariths_gen.multi_bit_circuits.adders.carry_increment_adder import (
     UnsignedCarryIncrementAdder,
     SignedCarryIncrementAdder
 )
+
+from ariths_gen.multi_bit_circuits.adders.rca import (
+    UnsignedRca
+)

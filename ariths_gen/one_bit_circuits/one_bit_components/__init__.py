@@ -17,3 +17,11 @@ from .three_input_one_bit_components import (
 from .four_input_one_bit_components import (
     BlackCell
 )
+
+from .half_adder import (
+    MyHalfAdder
+)
+
+from .full_adder import (
+    MyFullAdder
+)

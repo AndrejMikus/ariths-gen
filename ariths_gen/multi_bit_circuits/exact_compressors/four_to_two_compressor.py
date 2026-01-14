@@ -43,10 +43,10 @@ class FourToTwoCompressor(GeneralCircuit):
         # input wires for first FA are X3, X2 and X1
         fa1_input = [self.a.get_wire(i) for i in [3, 2, 1]]
 
-        fa1 = FullAdder(*fa1_input, prefix=prefix+"_fa1")
+        fa1 = FullAdder(*fa1_input, prefix=prefix+"fa1")
         self.add_component(fa1)
         
-        fa2 = FullAdder(fa1.get_sum_wire(), self.a.get_wire(0), self.a.get_wire(4))
+        fa2 = FullAdder(fa1.get_sum_wire(), self.a.get_wire(0), self.a.get_wire(4), prefix="fa2")
         self.add_component(fa2)
 
         # SUM is the sum output from the second FA
@@ -56,6 +56,9 @@ class FourToTwoCompressor(GeneralCircuit):
 
         # COUT is the carry output from the first FA
         self.out.connect(2, fa1.get_carry_wire())
+
+    def get_sum_wire(self):
+        return self.out.get_wire(0)
 
     def get_carry_wire(self):
         return self.out.get_wire(1)

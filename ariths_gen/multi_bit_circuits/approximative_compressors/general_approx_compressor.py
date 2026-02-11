@@ -15,7 +15,7 @@ class LowerOrderApproxMtoNCompressor(GeneralCircuit):
         """
         Implements M-to-⌈M/2⌉ lower-order approximate compressor.
 
-        For example, 3/2, 4/2, 5/3, and 6/3 compressors.
+        For example, 3/2, 4/2, 5/3, and 6/3 approx. compressors.
 
         ```
 
@@ -40,7 +40,7 @@ class LowerOrderApproxMtoNCompressor(GeneralCircuit):
         """
         self.N = a.N
         self.M = (self.N + 1) // 2 # ceil(N/2)
-        
+
         super().__init__(
             inputs=[a],
             name=f"approx_cmprs_{self.N}_{self.M}",
@@ -130,8 +130,8 @@ class LowerOrderApproxMtoNCompressor(GeneralCircuit):
         
     def create_compressor(self):
         """
-        Creates lower-order (3/2, 4/2, 5/3 or 6/3) compressor.
-        Connects outputs of recoded pairs to the output of entire compressor.
+        Creates lower-order (3/2, 4/2, 5/3 or 6/3) approximate compressor.
+        Connects outputs of recoded pairs to the output of entire (higher-order) compressor.
         
         :param self: compressor
         """
@@ -146,7 +146,7 @@ class LowerOrderApproxMtoNCompressor(GeneralCircuit):
 
 class GeneralApproxMtoNCompressor(GeneralCircuit):
     """
-    Implements a linear connection of compressors.
+    Implements a linear connection of approximate compressors.
 
     Depending on the input bus length:
         - Uses higher-order compressors if length > 6.
@@ -181,8 +181,8 @@ class GeneralApproxMtoNCompressor(GeneralCircuit):
                 .
         ```
 
-        The block connects multiple lower-order
-        compressors to form a higher-order compressor.
+        The block connects multiple lower-order approximate
+        compressors to form a higher-order approximate compressor.
 
         Args:
             a (Bus): Input bus.
@@ -223,8 +223,8 @@ class GeneralApproxMtoNCompressor(GeneralCircuit):
             +----------+-----+------------+-----+-----+
         
         Returns:
-            Higher-order compressor input wires split into
-            partial lower-order compressor inputs.
+            Higher-order approx. compressor input wires split into
+            partial lower-order approx. compressor inputs.
         """
         groups = []
         N = self.N

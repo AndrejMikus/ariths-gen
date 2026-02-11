@@ -7,5 +7,6 @@ from ariths_gen.multi_bit_circuits.approximative_compressors.approx_5_2_compress
 )
 
 from ariths_gen.multi_bit_circuits.approximative_compressors.general_approx_compressor import (
-    ApproxMtoNCompressor
+    LowerOrderApproxMtoNCompressor,
+    GeneralApproxMtoNCompressor
 )

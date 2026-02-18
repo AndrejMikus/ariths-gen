@@ -236,6 +236,9 @@ class GeneralApproxMtoNCompressor(GeneralCircuit):
         # compute first compressor input size (ranges from 3 to 6)
         first = remain + 4 if remain < 3 else remain
 
+        if first > N:
+            first = N
+
         # create a group for the first lower-order compressor
         if N >= first:
             sub = Bus(prefix=f"{self.prefix}_grp{gid}", N=first)
@@ -268,7 +271,8 @@ class GeneralApproxMtoNCompressor(GeneralCircuit):
             block = LowerOrderApproxMtoNCompressor(
                 g,
                 prefix=f"{self.prefix}_{order}",
-                order=order
+                order=order,
+                inner_component=True
             )
             order += 1
             self.add_component(block)

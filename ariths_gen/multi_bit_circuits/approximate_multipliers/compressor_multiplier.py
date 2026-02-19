@@ -8,9 +8,10 @@ import math
 
 class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
     def __init__(self, a: Bus, b: Bus, prefix: str = "", name: str = "u_apprx_cmpr", 
-                 unsigned_adder_class_name=UnsignedCarryLookaheadAdder, **kwargs):
+                 unsigned_adder_class_name=UnsignedCarryLookaheadAdder, type : str = "", **kwargs):
 
         self.N = max(a.N, b.N)
+        self.type = type
         super().__init__(inputs=[a, b], prefix=prefix, name=name, out_N=self.N*2, **kwargs)
 
         self.a.bus_extend(N=self.N, prefix=a.prefix)
@@ -36,19 +37,48 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
 
             self.columns[col_idx] = new_column
 
+        self.use_truncation = False
+        self.approx_stages = None
+
+        if self.type == "1StepFull":
+            self.approx_stages = 1
+
+        elif self.type == "2StepFull":
+            self.approx_stages = 2
         
-        while not all(self.get_column_height(c) <= 2 for c in range(len(self.columns))):
+        elif self.type == "1StepTrunc":
+            self.use_truncation = True
+            self.approx_stages = 1
+
+        elif self.type == "2StepTrunc":
+            self.use_truncation = True
+            self.approx_stages = 2
+
+        elif self.type in ("", "General"):
+            self.approx_stages = None
+        
+
+
+        stage = 0
+
+        while not all(self.get_column_height(c) <= 2 for c in range(len(self.columns))): # defaultly goes to column height of two
+
+            stage += 1
             current_max = max(self.get_column_height(c) for c in range(len(self.columns))) # maximum height of column in this stage
 
             self.h_max_next = math.ceil(current_max / 2)
 
             fa, ha, j = self.allocate_compressors()
 
+            use_approx = ( # boolean value to decide if we use approx compressors in LSP
+                self.approx_stages is None
+                or stage <= self.approx_stages
+            )
+
+
             for col_idx in range(len(self.columns)):
-                self.connect_components(col_idx, fa[col_idx], ha[col_idx], j[col_idx])
-
-
-        self.out.connect(0, self.add_column_wire(column=0, bit=0))
+                self.connect_components(col_idx, fa[col_idx], ha[col_idx], j[col_idx], use_approx)
+      
 
         # Final addition
         if self.N > 1:
@@ -69,6 +99,14 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
             [self.out.connect(i + 1, final_adder.out.get_wire(i)) for i in range(final_adder.out.N) if (i + 1) < self.out.N]
         else: 
             self.out.connect(1, ConstantWireValue0())
+
+        # propagate the lowest bit of the partial product matrix to the output
+        # we don't sum it with another bit as there is none
+        self.out.connect(0, self.add_column_wire(column=0, bit=0))
+        
+        if self.use_truncation:
+            for i in range(self.N - 1): # zero the n (half) least significant bits
+                self.out.connect(i, ConstantWireValue0())
 
 
     def allocate_compressors(self):
@@ -122,7 +160,7 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
         return fa, ha, j
     
 
-    def connect_components(self, column_idx, fa_count, ha_count, j_count):
+    def connect_components(self, column_idx, fa_count, ha_count, j, use_approx):
 
         # Connect full adders
         for _ in range(fa_count):
@@ -149,22 +187,50 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
             self.update_column_wires(curr_column=column_idx, next_column=column_idx + 1, adder=ha)
 
         current_height = self.get_column_height(column_idx)
-        j_count = min(j_count, current_height)
-        
-        
-        # Connect approximative compressors
-        wires_to_compress = [
-            self.add_column_wire(column=column_idx, bit=i)
-            for i in range(j_count)
-        ]
 
-        compressor_in_bus = Bus(prefix=f"{self.prefix}_compr_in_{column_idx}_{self.get_instance_num(cls=GeneralApproxMtoNCompressor)}", wires_list=wires_to_compress)
+        if use_approx: # use approximative compressors in this reduction stage
+            j = min(j, current_height)
+            
+            
+            # Connect approximative compressors
         
-        compressor = GeneralApproxMtoNCompressor(a=compressor_in_bus, prefix=f"{self.prefix}_compr_{column_idx}_{self.get_instance_num(cls=GeneralApproxMtoNCompressor)}", inner_component=True)
-        self.add_component(compressor)
+            wires_to_compress = [
+                self.add_column_wire(column=column_idx, bit=i)
+                for i in range(j)
+            ]
 
-        self.update_column_heights(curr_column=column_idx, curr_height_change=-(j_count - compressor.out.N))
+            compressor_in_bus = Bus(prefix=f"{self.prefix}_compr_in_{column_idx}_{self.get_instance_num(cls=GeneralApproxMtoNCompressor)}", wires_list=wires_to_compress)
+            
+            compressor = GeneralApproxMtoNCompressor(a=compressor_in_bus, prefix=f"{self.prefix}_compr_{column_idx}_{self.get_instance_num(cls=GeneralApproxMtoNCompressor)}", inner_component=True)
+            self.add_component(compressor)
+
+            self.update_column_heights(curr_column=column_idx, curr_height_change=-(j - compressor.out.N))
+            
+            
+            [self.columns[column_idx].pop(1) for _ in range(j)]
+            [self.columns[column_idx].insert(len(self.columns[column_idx]), compressor.out.get_wire(i)) for i in range(compressor.out.N)]
         
-        
-        [self.columns[column_idx].pop(1) for _ in range(j_count)]
-        [self.columns[column_idx].insert(len(self.columns[column_idx]), compressor.out.get_wire(i)) for i in range(compressor.out.N)]
+        else:   # no use of approx. compressors in this stage
+                # use of half and full adders instead
+            while self.get_column_height(column_idx) > 2:
+                if self.get_column_height(column_idx) >= 3:
+                    fa = FullAdder(
+                        self.add_column_wire(column=column_idx, bit=0),
+                        self.add_column_wire(column=column_idx, bit=1),
+                        self.add_column_wire(column=column_idx, bit=2),
+                        prefix=f"{self.prefix}_fa_exact_{column_idx}_{self.get_instance_num(cls=FullAdder)}"
+                    )
+                    self.add_component(fa)
+                    self.update_column_heights(
+                        curr_column=column_idx,
+                        curr_height_change=-2,
+                        next_column=column_idx + 1,
+                        next_height_change=1
+                    )
+                    self.update_column_wires(
+                        curr_column=column_idx,
+                        next_column=column_idx + 1,
+                        adder=fa
+                    )
+                else:
+                    break

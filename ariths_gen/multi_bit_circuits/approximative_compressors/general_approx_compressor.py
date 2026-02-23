@@ -1,7 +1,4 @@
 from ariths_gen.one_bit_circuits.logic_gates import (
-    NorGate,
-    XnorGate,
-    NotGate,
     OrGate,
     AndGate,
 )
@@ -13,7 +10,7 @@ from ariths_gen.core.arithmetic_circuits import GeneralCircuit
 class LowerOrderApproxMtoNCompressor(GeneralCircuit):
     def __init__(self, a: Bus, prefix="", name="approx_cmprs", order=0, **kwargs):
         """
-        Implements M-to-⌈M/2⌉ lower-order approximate compressor.
+        Implements N-to-⌈N/2⌉ lower-order approximate compressor.
 
         For example, 3/2, 4/2, 5/3, and 6/3 approx. compressors.
 
@@ -22,7 +19,7 @@ class LowerOrderApproxMtoNCompressor(GeneralCircuit):
             ┌─────────────┐    
         ───►│             ├───►
         ───►│             │    
-        ───►│  M : ⌈M/2⌉  ├───►
+        ───►│  N : ⌈N/2⌉  ├───►
         ───►│             │    
         ───►│             ├───►
             └─────────────┘
@@ -50,96 +47,53 @@ class LowerOrderApproxMtoNCompressor(GeneralCircuit):
             **kwargs
         )
 
-        self.create_compressor()
+
+        # reversed list of inputs
+        inputs = [self.a.get_wire(self.N - 1 - i) for i in range(self.N)]
         
+        num_pairs = self.N // 2
+
+        # outputs of AND and OR gates
+        Ands = []
+        Ors = []
         
-    def pair_p_products(self):
-        """
-        Pairwise partial product in order.
-        Returns:
-            List of groups of two pp.
-            If the number of pps is odd, the last pp remains unpaired.
-        
-        :param self: compressor itself
-        """
-        pairs = []
-        for i in range(0, self.N, 2):
-            wire0 = self.a.get_wire(i)
-            wire1 = self.a.get_wire(i + 1) if (i + 1 < self.N) else None
-            pairs.append((wire0, wire1))
-
-        return pairs
-    
-
-    def create_and_or_pairs(self, pairs):
-        """
-        Creates AND and OR pairs from each partial product pair.
-        
-        :param self: compressor itself
-        :param pairs: list of partial product pairs
-        """
-        and_outputs_list =  []
-        or_outputs_list = []
-
-        for i, (w0, w1) in enumerate(pairs):
-            if w1 is None:
-                # append partial product alone (will not be recoded)
-                or_outputs_list.append(w0)
-            else:
-                # create lists of ANDs and ORs from each pair
-                and_gate = AndGate(w0, w1, prefix=f"{self.prefix}_and_{i}")
-                or_gate = OrGate(w0, w1, prefix=f"{self.prefix}_or_{i}")
-
-                self.add_component(and_gate)
-                self.add_component(or_gate)
-
-                and_outputs_list.append(and_gate.out)
-                or_outputs_list.append(or_gate.out)
-
-        return and_outputs_list, or_outputs_list
-    
-    def recode_and_or(self, and_list, or_list):
-        """
-        Provides AND-OR recoding for each partial product pair 
-        using previously created AND and OR lists.
-        
-        :param self: compressor itself
-        :param and_list: list of AND gates
-        :param or_list: list of OR gates
-
-        Returns:
-            Recoded partial products in form of a list
-        """
+        for i in range(num_pairs):
+            w0 = inputs[2*i]
+            w1 = inputs[2*i+1]
+            
+            and_gate = AndGate(w0, w1, prefix=f"{self.prefix}_and_{i}")
+            or_gate = OrGate(w0, w1, prefix=f"{self.prefix}_or_{i}")
+            
+            self.add_component(and_gate)
+            self.add_component(or_gate)
+            
+            Ands.append(and_gate.out)
+            Ors.append(or_gate.out)
+            
         outputs = []
-
-        or_count = len(or_list)
-
-        for i in range(or_count):
-            a_i = and_list[i] if i < len(and_list) else None
-            next_or_gate = or_list[(i + 1) % or_count]
-
-            if a_i is None:
-                # unpaired partial product
-                outputs.append(next_or_gate)
-            else:
-                or_gate = OrGate(a_i, next_or_gate, prefix=f"{self.prefix}_out_{i}")
+        
+        if self.N % 2 == 0:
+            for i in range(num_pairs):
+                next_idx = (i + 1) % num_pairs
+                or_gate = OrGate(Ands[i], Ors[next_idx], prefix=f"{self.prefix}_out_{i}")
                 self.add_component(or_gate)
                 outputs.append(or_gate.out)
+        else:
+            
+            unpaired = inputs[-1]
+            
+            for i in range(num_pairs - 1):
+                or_gate = OrGate(Ands[i], Ors[i+1], prefix=f"{self.prefix}_out_{i}")
+                self.add_component(or_gate)
+                outputs.append(or_gate.out)
+            
+            outputs.append(Ors[0])
+            
+            last_or = OrGate(Ands[num_pairs-1], unpaired, prefix=f"{self.prefix}_out_{num_pairs}")
+            self.add_component(last_or)
+            outputs.append(last_or.out)
 
-        return outputs
-        
-    def create_compressor(self):
-        """
-        Creates lower-order (3/2, 4/2, 5/3 or 6/3) approximate compressor.
-        Connects outputs of recoded pairs to the output of entire (higher-order) compressor.
-        
-        :param self: compressor
-        """
-        pairs = self.pair_p_products()
-        and_list, or_list = self.create_and_or_pairs(pairs)
-        outs = self.recode_and_or(and_list, or_list)
-
-        for out_pin, wire_out in enumerate(outs):
+        for out_pin, wire_out in enumerate(outputs):
             self.out.connect(out_pin, wire_out)
 
 
@@ -160,7 +114,7 @@ class GeneralApproxMtoNCompressor(GeneralCircuit):
             ┌─────────┐
         ───►│         ├───►
         ───►│         │
-        ───►│ M:⌈M/2⌉ ├───►
+        ───►│ N:⌈N/2⌉ ├───►
         ───►│         │
         ───►│         ├───►
             └─────────┘
@@ -170,7 +124,7 @@ class GeneralApproxMtoNCompressor(GeneralCircuit):
         ───►│         │
         ───►│         ├───►
         ───►│         │
-        ───►│ M:⌈M/2⌉ ├───►
+        ───►│ N:⌈N/2⌉ ├───►
         ───►│         │
         ───►│         ├───►
         ───►│         │

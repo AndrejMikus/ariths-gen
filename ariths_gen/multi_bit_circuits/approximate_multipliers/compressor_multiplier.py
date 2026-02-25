@@ -57,6 +57,10 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
         elif self.type in ("", "General"):
             self.approx_stages = None
         
+        if self.use_truncation:
+            # Truncate the N-1 least significant columns
+            for col_idx in range(self.N - 1):
+                self.columns[col_idx] = [0]
 
 
         stage = 0
@@ -104,7 +108,8 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
 
         # propagate the lowest bit of the partial product matrix to the output
         # we don't sum it with another bit as there is none
-        self.out.connect(0, self.add_column_wire(column=0, bit=0))
+        if self.get_column_height(0) > 0:
+            self.out.connect(0, self.add_column_wire(column=0, bit=0))
         
         if self.use_truncation:
             for i in range(self.N - 1): # zero the n (half) least significant bits
@@ -121,7 +126,7 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
 
         # Compute an array of column heights in the stage
         h = [self.get_column_height(col) for col in range(num_columns)]
-        
+
         # Least significant part of matrix (LSP)
         for col in range(self.N):
             if h[col] <= 2:

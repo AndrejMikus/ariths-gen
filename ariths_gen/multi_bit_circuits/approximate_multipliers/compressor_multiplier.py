@@ -43,14 +43,14 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
         if self.type == "1StepFull":
             self.approx_stages = 1
 
-        elif self.type == "2StepFull":
+        elif self.type == "2StepsFull":
             self.approx_stages = 2
         
         elif self.type == "1StepTrunc":
             self.use_truncation = True
             self.approx_stages = 1
 
-        elif self.type == "2StepTrunc":
+        elif self.type == "2StepsTrunc":
             self.use_truncation = True
             self.approx_stages = 2
 

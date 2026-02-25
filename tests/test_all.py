@@ -66,7 +66,8 @@ from ariths_gen.multi_bit_circuits.approximate_multipliers import (
     UnsignedBrokenArrayMultiplier,
     UnsignedBrokenCarrySaveMultiplier,
     UnsignedRecursiveMultiplier,
-    UnsignedAccurateTwoBitMultiplier
+    UnsignedAccurateTwoBitMultiplier,
+    UnsignedApproxCompressorBasedMultiplier
 )
 
 from ariths_gen.one_bit_circuits.logic_gates import (
@@ -192,6 +193,46 @@ def test_unsigned_mul():
                 assert mul(0, 0) == 0
                 r = mul(av, bv)
                 np.testing.assert_array_equal(expected, r)
+
+def evaluate_error_metrics(multiplier, N=6, variant="General"):
+    a = Bus(N=N, prefix="a")
+    b = Bus(N=N, prefix="b")
+
+    mul = multiplier(a=a, b=b, type=variant)
+
+    av = np.arange(2**N)
+    bv = av.reshape(-1, 1)
+
+    exact = av * bv
+    approx = mul(av, bv)
+
+    E = exact.astype(np.int64) - approx.astype(np.int64)
+    total_cases = E.size
+    ER = np.count_nonzero(E) / total_cases
+    ME = np.mean(E)
+    ERMS = np.sqrt(np.mean(E**2))
+    NoEB = 2*N - np.log2(1 + ERMS)
+
+    return ER, ME, NoEB
+
+
+def test_unsigned_approx_compressor_mul():
+    N = 8
+
+    variants = ["1StepFull", "1StepTrunc"]
+
+    for variant in variants:
+        ER, ME, NoEB = evaluate_error_metrics(
+            UnsignedApproxCompressorBasedMultiplier,
+            N=N,
+            variant=variant
+        )
+
+        print("\nVariant:", variant)
+        print("ER   :", ER)
+        print("ME   :", ME)
+        print("NoEB :", NoEB)
+
 
 
 def test_signed_mul():
@@ -438,14 +479,17 @@ def test_unique():
         circ.get_v_code_flat(file_object=sys.stdout)
 
 if __name__ == "__main__":
-    test_unsigned_approxmul()
-    test_unsigned_mul()
-    test_signed_mul()
-    test_unsigned_add()
-    test_signed_add()
-    test_unsigned_sub()
-    test_signed_sub()
-    test_mac()
-    test_direct()
-    test_wire_as_bus()
+    # test_unsigned_approxmul()
+    test_unsigned_approx_compressor_mul()
+    """ 
+        test_unsigned_mul()
+        test_signed_mul()
+        test_unsigned_add()
+        test_signed_add()
+        test_unsigned_sub()
+        test_signed_sub()
+        test_mac()
+        test_direct()
+        test_wire_as_bus()
+        """
     print("Python tests were successful!")

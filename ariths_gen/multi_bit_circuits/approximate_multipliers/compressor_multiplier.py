@@ -68,8 +68,10 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
 
             self.h_max_next = math.ceil(current_max / 2)
 
-            fa, ha, j = self.allocate_compressors()
-
+            fa, ha, j, h_next, C = self.allocate_compressors()
+            for i in range(len(fa)):
+                print(f"line({i}):{fa[i]} {ha[i]} {j[i]}, {C[i-1] if i > 0 else ""} {h_next[i]}")
+            print()
             use_approx = ( # boolean value to decide if we use approx compressors in LSP
                 self.approx_stages is None
                 or stage <= self.approx_stages
@@ -119,7 +121,7 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
 
         # Compute an array of column heights in the stage
         h = [self.get_column_height(col) for col in range(num_columns)]
-
+        
         # Least significant part of matrix (LSP)
         for col in range(self.N):
             if h[col] <= 2:
@@ -131,16 +133,19 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
 
         
         # Most significant part (MSP)
-        for col in range(self.N, 2*self.N - 2):
+        for col in range(self.N, 2*self.N - 3):
             C_prev = C[col-1] if col > 0 else 0
-            c_star = math.ceil((h[col] - (self.h_max_next - C_prev)) / 2)
+            c_star = math.ceil((h[col] - self.h_max_next + C_prev) / 2)
+            c_star = max(0, c_star)
 
             if col + 2 < num_columns:
                 c_max = self.h_max_next - math.ceil(h[col + 2] / 3)
             else:
-                c_max = 0
+                c_max = self.h_max_next
 
+            h_next[col] = self.h_max_next
             c_double_star = 2 * c_max - h[col + 1] + self.h_max_next
+            c_double_star = max(0, c_double_star)
 
             if c_double_star < c_star:
                 C[col] = c_double_star
@@ -149,15 +154,20 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
 
                 if (j[col] == 2) and (h[col] - 3*fa[col] >= 3):
                     j[col] = 3
+
+                ha[col] = C[col] - fa[col]
             
             else:
                 C[col] = c_star
                 if C[col] > 0:
-                    fa[col] = math.ceil((h[col] - self.h_max_next + C_prev) / 2)
-                    ha[col] = C[col] - fa[col]
+                    exact_compressors = max(0, h[col] - self.h_max_next + C_prev)
+
+                    fa[col] = exact_compressors // 2
+                    ha[col] = exact_compressors % 2
             
-            h_next[col] = h[col] - 2*fa[col] - ha[col] - math.ceil(j[col]/2) + C_prev
-        return fa, ha, j
+            h_next[col] = h[col] - 2*fa[col] - ha[col] - (j[col] - math.ceil(j[col]/2)) + C_prev
+            h_next[col] = min(h[col], h_next[col])
+        return fa, ha, j, h_next, C
     
 
     def connect_components(self, column_idx, fa_count, ha_count, j, use_approx):
@@ -171,8 +181,9 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
                            self.add_column_wire(column=column_idx, bit=2),
                            prefix=f"{self.prefix}_fa_{column_idx}_{self.get_instance_num(cls=FullAdder)}")
             self.add_component(fa)
-            self.update_column_heights(curr_column=column_idx, curr_height_change=-2, next_column=column_idx + 1, next_height_change=1)
-            self.update_column_wires(curr_column=column_idx, next_column=column_idx + 1, adder=fa)
+            next_col = min(column_idx + 1, len(self.columns) - 1)  # prevent out-of-range
+            self.update_column_heights(curr_column=column_idx, curr_height_change=-2, next_column=next_col, next_height_change=1)
+            self.update_column_wires(curr_column=column_idx, next_column=next_col, adder=fa)
 
 
         # Connect half adders
@@ -183,8 +194,9 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
                            self.add_column_wire(column=column_idx, bit=1),
                            prefix=f"{self.prefix}_ha_{column_idx}_{self.get_instance_num(cls=HalfAdder)}")
             self.add_component(ha)
-            self.update_column_heights(curr_column=column_idx, curr_height_change=-1, next_column=column_idx + 1, next_height_change=1)
-            self.update_column_wires(curr_column=column_idx, next_column=column_idx + 1, adder=ha)
+            next_col = min(column_idx + 1, len(self.columns) - 1)
+            self.update_column_heights(curr_column=column_idx, curr_height_change=-1, next_column=next_col, next_height_change=1)
+            self.update_column_wires(curr_column=column_idx, next_column=next_col, adder=ha)
 
         current_height = self.get_column_height(column_idx)
 
@@ -221,15 +233,16 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
                         prefix=f"{self.prefix}_fa_exact_{column_idx}_{self.get_instance_num(cls=FullAdder)}"
                     )
                     self.add_component(fa)
+                    next_col = min(column_idx + 1, len(self.columns) - 1)
                     self.update_column_heights(
                         curr_column=column_idx,
                         curr_height_change=-2,
-                        next_column=column_idx + 1,
+                        next_column=next_col,
                         next_height_change=1
                     )
                     self.update_column_wires(
                         curr_column=column_idx,
-                        next_column=column_idx + 1,
+                        next_column=next_col,
                         adder=fa
                     )
                 else:

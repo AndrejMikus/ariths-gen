@@ -1,9 +1,9 @@
-from ariths_gen.wire_components import Bus, ConstantWireValue0
+from ariths_gen.wire_components import Bus, ConstantWireValue0, ConstantWireValue1
 from ariths_gen.core.arithmetic_circuits import MultiplierCircuit
 from ariths_gen.one_bit_circuits.one_bit_components import HalfAdder, FullAdder
 from ariths_gen.multi_bit_circuits.approximative_compressors import GeneralApproxMtoNCompressor
 from ariths_gen.multi_bit_circuits.adders.carry_lookahead_adder import UnsignedCarryLookaheadAdder
-from ariths_gen.one_bit_circuits.logic_gates import AndGate
+from ariths_gen.one_bit_circuits.logic_gates import AndGate, NandGate, XorGate
 import math
 
 class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
@@ -72,9 +72,9 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
 
             self.h_max_next = math.ceil(current_max / 2)
 
-            fa, ha, j, h_next, C = self.allocate_compressors()
+            fa, ha, j, h, h_next, C = self.allocate_compressors()
             for i in range(len(fa)):
-                print(f"line({i}):{fa[i]} {ha[i]} {j[i]}, {C[i-1] if i > 0 else ""} {h_next[i]}")
+                print(f"line({i}):{fa[i]} {ha[i]} {j[i]}, {h[i]} -> {h_next[i]}..{C[i-1] if i > 0 else ""}")
             print()
             use_approx = ( # boolean value to decide if we use approx compressors in LSP
                 self.approx_stages is None
@@ -172,7 +172,7 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
             
             h_next[col] = h[col] - 2*fa[col] - ha[col] - (j[col] - math.ceil(j[col]/2)) + C_prev
             h_next[col] = min(h[col], h_next[col])
-        return fa, ha, j, h_next, C
+        return fa, ha, j, h, h_next, C
     
 
     def connect_components(self, column_idx, fa_count, ha_count, j, use_approx):
@@ -252,3 +252,126 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
                     )
                 else:
                     break
+                
+class SignedApproxCompressorBasedMultiplier(MultiplierCircuit):
+    def __init__(self, a: Bus, b: Bus, prefix: str = "", name: str = "s_apprx_cmpr", 
+                unsigned_adder_class_name=UnsignedCarryLookaheadAdder, type : str = "", **kwargs):
+        
+        self.N = max(a.N, b.N)
+
+        self.type = type
+        super().__init__(inputs=[a, b], prefix=prefix, name=name, signed=True, out_N=self.N*2, **kwargs)
+
+        self.a.bus_extend(N=self.N, prefix=a.prefix, desired_extension_wire=self.a.get_wire(self.a.N-1))
+        self.b.bus_extend(N=self.N, prefix=b.prefix, desired_extension_wire=self.b.get_wire(self.b.N-1))
+
+        self.h_max_next = (self.N + 1) // 2  # ceil(N/2)
+
+        self.columns = self.init_column_heights()
+        
+
+
+        if self.N != 1:
+            self.columns[self.N].insert(1, ConstantWireValue1())
+            self.update_column_heights(curr_column=self.N, curr_height_change=1)
+
+        
+        # Rearrange partial products (AND gates)
+        # Each pp should appear in partial product matrix only once
+        for col_idx in range(len(self.columns)):
+            new_column = [self.get_column_height(col_idx)]
+
+            for obj in self.columns[col_idx][1:]:
+                if isinstance(obj, AndGate) or isinstance(obj, NandGate):
+                    if obj.prefix not in self._prefixes:
+                        self.add_component(obj)
+                    new_column.append(obj.out)
+                else:
+                    new_column.append(obj)
+
+            self.columns[col_idx] = new_column
+        
+
+
+        self.use_truncation = False
+        self.approx_stages = None
+
+        if self.type == "1StepFull":
+            self.approx_stages = 1
+
+        elif self.type == "2StepsFull":
+            self.approx_stages = 2
+        
+        elif self.type == "1StepTrunc":
+            self.use_truncation = True
+            self.approx_stages = 1
+
+        elif self.type == "2StepsTrunc":
+            self.use_truncation = True
+            self.approx_stages = 2
+
+        elif self.type in ("", "General"):
+            self.approx_stages = None
+        
+        if self.use_truncation:
+            # Truncate the N-1 least significant columns
+            for col_idx in range(self.N - 1):
+                self.columns[col_idx] = [0]
+
+
+        stage = 0
+
+        while not all(self.get_column_height(c) <= 2 for c in range(len(self.columns))): # defaultly goes to column height of two
+
+            stage += 1
+            current_max = max(self.get_column_height(c) for c in range(len(self.columns))) # maximum height of column in this stage
+
+            self.h_max_next = math.ceil(current_max / 2)
+
+            fa, ha, j, h, h_next, C = UnsignedApproxCompressorBasedMultiplier.allocate_compressors(self)
+            for i in range(len(fa)):
+                print(f"line({i}):{fa[i]} {ha[i]} {j[i]}, {h_next[i]}")
+            print()
+            use_approx = ( # boolean value to decide if we use approx compressors in LSP
+                self.approx_stages is None
+                or stage <= self.approx_stages
+            )
+
+
+            for col_idx in range(len(self.columns)):
+                UnsignedApproxCompressorBasedMultiplier.connect_components(self, col_idx, fa[col_idx], ha[col_idx], j[col_idx], use_approx)
+    
+
+        # Final addition
+        if self.N > 1:
+            adder_a_wires = []
+            adder_b_wires = []
+
+            for col in range(1, len(self.columns)):
+                h = self.get_column_height(col)
+                adder_a_wires.append(self.add_column_wire(column=col, bit=0) if h > 0 else ConstantWireValue0())
+                adder_b_wires.append(self.add_column_wire(column=col, bit=1) if h > 1 else ConstantWireValue0())
+
+            adder_a = Bus(prefix=f"{self.prefix}_final_a", wires_list=adder_a_wires)
+            adder_b = Bus(prefix=f"{self.prefix}_final_b", wires_list=adder_b_wires)
+
+            final_adder = unsigned_adder_class_name(a=adder_a, b=adder_b, prefix=self.prefix, name=f"final_adder", inner_component=True, **kwargs)
+            self.add_component(final_adder)
+
+            [self.out.connect(i + 1, final_adder.out.get_wire(i)) for i in range(final_adder.out.N) if (i + 1) < self.out.N]
+        else: 
+            self.out.connect(1, ConstantWireValue0())
+
+        # propagate the lowest bit of the partial product matrix to the output
+        # we don't sum it with another bit as there is none
+        if self.get_column_height(0) > 0:
+            self.out.connect(0, self.add_column_wire(column=0, bit=0))
+        
+        if self.use_truncation:
+            for i in range(self.N - 1): # zero the n (half) least significant bits
+                self.out.connect(i, ConstantWireValue0())
+
+        # Final XOR to ensure proper sign extension
+        obj_xor = XorGate(ConstantWireValue1(), self.out.get_wire(self.out.N-1), prefix=self.prefix+"_xor"+str(self.get_instance_num(cls=XorGate)), parent_component=self)
+        self.add_component(obj_xor)
+        self.out.connect(self.out.N-1, obj_xor.out)

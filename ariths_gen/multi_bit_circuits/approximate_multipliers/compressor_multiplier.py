@@ -73,9 +73,9 @@ class UnsignedApproxCompressorBasedMultiplier(MultiplierCircuit):
             self.h_max_next = math.ceil(current_max / 2)
 
             fa, ha, j, h, h_next, C = self.allocate_compressors()
-            for i in range(len(fa)):
-                print(f"line({i}):{fa[i]} {ha[i]} {j[i]}, {h[i]} -> {h_next[i]}..{C[i-1] if i > 0 else ""}")
-            print()
+            #for i in range(len(fa)):
+            #    print(f"line({i}):{fa[i]} {ha[i]} {j[i]}, {h[i]} -> {h_next[i]}..{C[i-1] if i > 0 else ""}")
+            #print()
             use_approx = ( # boolean value to decide if we use approx compressors in LSP
                 self.approx_stages is None
                 or stage <= self.approx_stages
@@ -329,9 +329,9 @@ class SignedApproxCompressorBasedMultiplier(MultiplierCircuit):
             self.h_max_next = math.ceil(current_max / 2)
 
             fa, ha, j, h, h_next, C = UnsignedApproxCompressorBasedMultiplier.allocate_compressors(self)
-            for i in range(len(fa)):
-                print(f"line({i}):{fa[i]} {ha[i]} {j[i]}, {h_next[i]}")
-            print()
+            #for i in range(len(fa)):
+            #    print(f"line({i}):{fa[i]} {ha[i]} {j[i]}, {h_next[i]}")
+            #print()
             use_approx = ( # boolean value to decide if we use approx compressors in LSP
                 self.approx_stages is None
                 or stage <= self.approx_stages

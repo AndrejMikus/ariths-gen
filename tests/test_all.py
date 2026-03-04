@@ -67,7 +67,8 @@ from ariths_gen.multi_bit_circuits.approximate_multipliers import (
     UnsignedBrokenCarrySaveMultiplier,
     UnsignedRecursiveMultiplier,
     UnsignedAccurateTwoBitMultiplier,
-    UnsignedApproxCompressorBasedMultiplier
+    UnsignedApproxCompressorBasedMultiplier,
+    SignedApproxCompressorBasedMultiplier
 )
 
 from ariths_gen.one_bit_circuits.logic_gates import (
@@ -194,19 +195,23 @@ def test_unsigned_mul():
                 r = mul(av, bv)
                 np.testing.assert_array_equal(expected, r)
 
-def evaluate_error_metrics(multiplier, N=6, variant="General"):
+def evaluate_error_metrics(multiplier, N=6, variant="General", signed=False):
     a = Bus(N=N, prefix="a")
     b = Bus(N=N, prefix="b")
 
     mul = multiplier(a=a, b=b, type=variant)
 
-    av = np.arange(2**N)
+    if signed:
+        av = np.arange(-(2**(N-1)), 2**(N-1))
+    else:
+        av = np.arange(2**N)
+
     bv = av.reshape(-1, 1)
 
     exact = av * bv
     approx = mul(av, bv)
 
-    E = exact.astype(np.int64) - approx.astype(np.int64)
+    E = exact - approx
     total_cases = E.size
     ER = np.count_nonzero(E) / total_cases
     ME = np.mean(E)
@@ -219,7 +224,7 @@ def evaluate_error_metrics(multiplier, N=6, variant="General"):
 def test_unsigned_approx_compressor_mul():
     N = 8
 
-    variants = ["1StepFull", "1StepTrunc"]
+    variants = ["1StepFull", "1StepTrunc", "2StepsFull", "2StepsTrunc"]
 
     for variant in variants:
         ER, ME, NoEB = evaluate_error_metrics(
@@ -228,11 +233,31 @@ def test_unsigned_approx_compressor_mul():
             variant=variant
         )
 
-        print("\nVariant:", variant)
+        print("\nUnsigned Variant:", variant)
         print("ER   :", ER)
         print("ME   :", ME)
         print("NoEB :", NoEB)
+    print("========================")
 
+def test_signed_approx_compressor_mul():
+    N = 8
+
+    variants = ["1StepFull", "1StepTrunc", "2StepsFull", "2StepsTrunc"]
+
+    for variant in variants:
+        ER, ME, NoEB = evaluate_error_metrics(
+            SignedApproxCompressorBasedMultiplier,
+            N=N,
+            variant=variant,
+            signed=True
+        )
+
+        print("\nSigned Variant:", variant)
+        print("ER   :", ER)
+        print("ME   :", ME)
+        print("NoEB :", NoEB)
+    
+    print("========================")
 
 
 def test_signed_mul():
@@ -481,6 +506,7 @@ def test_unique():
 if __name__ == "__main__":
     # test_unsigned_approxmul()
     test_unsigned_approx_compressor_mul()
+    test_signed_approx_compressor_mul()
     """ 
         test_unsigned_mul()
         test_signed_mul()

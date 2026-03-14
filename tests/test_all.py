@@ -68,7 +68,8 @@ from ariths_gen.multi_bit_circuits.approximate_multipliers import (
     UnsignedRecursiveMultiplier,
     UnsignedAccurateTwoBitMultiplier,
     UnsignedApproxCompressorBasedMultiplier,
-    SignedApproxCompressorBasedMultiplier
+    SignedApproxCompressorBasedMultiplier,
+    UnsignedQuarterApproxCompressorMultiplier
 )
 
 from ariths_gen.one_bit_circuits.logic_gates import (
@@ -195,11 +196,11 @@ def test_unsigned_mul():
                 r = mul(av, bv)
                 np.testing.assert_array_equal(expected, r)
 
-def evaluate_error_metrics(multiplier, N=6, variant="General", signed=False):
+def evaluate_error_metrics(multiplier, N=8, variant="General", signed=False):
     a = Bus(N=N, prefix="a")
     b = Bus(N=N, prefix="b")
 
-    mul = multiplier(a=a, b=b, type=variant)
+    mul = multiplier(a=a, b=b, variant=variant)
 
     if signed:
         av = np.arange(-(2**(N-1)), 2**(N-1))
@@ -234,6 +235,24 @@ def test_unsigned_approx_compressor_mul():
         )
 
         print("\nUnsigned Variant:", variant)
+        print("ER   :", ER)
+        print("ME   :", ME)
+        print("NoEB :", NoEB)
+    print("========================")
+
+def test_unsigned_quarter_approx_compressor_mul():
+    N = 8
+
+    variants = ["1StepFull", "1StepTrunc", "2StepsFull", "2StepsTrunc"]
+
+    for variant in variants:
+        ER, ME, NoEB = evaluate_error_metrics(
+            UnsignedQuarterApproxCompressorMultiplier,
+            N=N,
+            variant=variant
+        )
+
+        print("\nUnsigned Quarter Variant:", variant)
         print("ER   :", ER)
         print("ME   :", ME)
         print("NoEB :", NoEB)
@@ -507,6 +526,8 @@ if __name__ == "__main__":
     # test_unsigned_approxmul()
     test_unsigned_approx_compressor_mul()
     test_signed_approx_compressor_mul()
+    print("++++++++++++++++++++++")
+    test_unsigned_quarter_approx_compressor_mul()
     """ 
         test_unsigned_mul()
         test_signed_mul()

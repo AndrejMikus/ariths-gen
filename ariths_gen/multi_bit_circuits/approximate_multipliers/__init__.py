@@ -26,5 +26,7 @@ from ariths_gen.multi_bit_circuits.approximate_multipliers.recursive_multiplier 
 from ariths_gen.multi_bit_circuits.approximate_multipliers.compressor_multiplier import (
     UnsignedApproxCompressorBasedMultiplier,
     SignedApproxCompressorBasedMultiplier,
-    UnsignedQuarterApproxCompressorMultiplier
+    UnsignedQuarterApproxCompressorMultiplier,
+    SignedQuarterApproxCompressorMultiplier,
+    UnsignedThresholdApproxCompressorMultiplier
 )

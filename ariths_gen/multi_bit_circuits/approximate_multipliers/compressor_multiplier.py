@@ -5,6 +5,8 @@ from ariths_gen.multi_bit_circuits.approximative_compressors import GeneralAppro
 from ariths_gen.multi_bit_circuits.adders.carry_lookahead_adder import UnsignedCarryLookaheadAdder
 from ariths_gen.one_bit_circuits.logic_gates import AndGate, NandGate, XorGate
 import math
+
+
 def _variant_configuration(variant: str):
     use_truncation = False
     approx_stages = None
@@ -41,6 +43,7 @@ class _ApproxCompressorBasedMultiplierBase(MultiplierCircuit):
         self.N = max(a.N, b.N)
         self.variant = variant
         self.use_truncation = False
+        self.use_dadda = False
         self.approx_stages = None
         self.h_max_next = (self.N + 1) // 2
 
@@ -96,7 +99,14 @@ class _ApproxCompressorBasedMultiplierBase(MultiplierCircuit):
         while not all(self.get_column_height(c) <= 2 for c in range(len(self.columns))):
             stage += 1
             current_max = max(self.get_column_height(c) for c in range(len(self.columns)))
-            self.h_max_next = math.ceil(current_max / 2)
+
+            if self.approx_stages is not None and stage > self.approx_stages:
+                self.use_dadda = True
+
+            if self.use_dadda:
+                _, self.h_max_next = self.get_maximum_height(current_max)
+            else:
+                self.h_max_next = math.ceil(current_max / 2)
 
             fa, ha, j, _, _, _ = self.allocate_compressors()
             use_approx = self.approx_stages is None or stage <= self.approx_stages
@@ -252,11 +262,12 @@ class _ApproxCompressorBasedMultiplierBase(MultiplierCircuit):
             for i in range(compressor.out.N):
                 self.columns[column_idx].insert(len(self.columns[column_idx]), compressor.out.get_wire(i))
         else:
-            while self.get_column_height(column_idx) > 2:
-                if self.get_column_height(column_idx) >= 3:
-                    self._add_full_adder(column_idx, prefix_suffix="fa_exact")
+            # reduction using dadda rules
+            while self.get_column_height(column_idx) > self.h_max_next:
+                if self.get_column_height(column_idx) == self.h_max_next + 1:
+                    self._add_half_adder(column_idx)
                 else:
-                    break
+                    self._add_full_adder(column_idx, prefix_suffix="fa_exact")
 
 
 class UnsignedApproxCompressorBasedMultiplier(_ApproxCompressorBasedMultiplierBase):
@@ -314,7 +325,71 @@ class UnsignedQuarterApproxCompressorMultiplier(UnsignedApproxCompressorBasedMul
     def _low_part_limit(self, num_columns: int):
         return num_columns // 4
 
+class SignedQuarterApproxCompressorMultiplier(SignedApproxCompressorBasedMultiplier):
+    def _low_part_limit(self, num_columns: int):
+        return num_columns // 4
 
+class UnsignedThresholdApproxCompressorMultiplier(UnsignedApproxCompressorBasedMultiplier):
+    def allocate_compressors(self):
+        num_columns = len(self.columns)
+        fa = [0] * num_columns
+        ha = [0] * num_columns
+        j = [0] * num_columns
+        C = [0] * num_columns
+        h_next = [0] * num_columns
 
+        h = [self.get_column_height(col) for col in range(num_columns)]
 
+        threshold = max(3, int(getattr(self, "height_threshold", 3)))
 
+        low_part_limit = self._low_part_limit(num_columns)
+
+        for col in range(low_part_limit):
+            if h[col] <= 2:
+                j[col] = 0
+                h_next[col] = h[col]
+            else:
+                j[col] = h[col] if h[col] >= threshold else 0
+                h_next[col] = math.ceil(h[col] / 2)
+
+        for col in range(low_part_limit, 2 * self.N - 3):
+            C_prev = C[col - 1] if col > 0 else 0
+            c_star = math.ceil((h[col] - self.h_max_next + C_prev) / 2)
+            c_star = max(0, c_star)
+
+            if col + 2 < num_columns:
+                c_max = self.h_max_next - math.ceil(h[col + 2] / 3)
+            else:
+                c_max = self.h_max_next
+
+            h_next[col] = h[col]
+            c_double_star = 2 * c_max - h[col + 1] + self.h_max_next
+            c_double_star = max(0, c_double_star)
+
+            approx_compressors_count = 0
+
+            if c_double_star < c_star:
+                C[col] = c_double_star
+                fa[col] = c_double_star
+                approx_compressors_count = 2 * (h[col] - self.h_max_next - 2 * fa[col] + C_prev)
+
+                if (approx_compressors_count == 2) and (h[col] - 3 * fa[col] >= 3):
+                    approx_compressors_count = 3
+
+                ha[col] = C[col] - fa[col]
+            else:
+                C[col] = c_star
+                if C[col] > 0:
+                    fa[col] = math.ceil((h[col] - self.h_max_next + C_prev) / 2)
+                    ha[col] = C[col] - fa[col]
+
+            approx_compressors_count = max(0, approx_compressors_count)
+
+            if h[col] >= threshold:
+                j[col] = min(approx_compressors_count, h[col])
+            else:
+                j[col] = 0
+
+            h_next[col] = h[col] - 2 * fa[col] - ha[col] - math.ceil(j[col] / 2) + C_prev
+
+        return fa, ha, j, h, h_next, C

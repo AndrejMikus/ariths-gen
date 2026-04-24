@@ -400,6 +400,16 @@ class UnsignedThresholdApproxCompressorMultiplier(UnsignedApproxCompressorBasedM
 
         return fa, ha, j, h, h_next, C
     
+class SignedThresholdApproxCompressorMultiplier(SignedApproxCompressorBasedMultiplier):
+    def __init__(self, *args, height_threshold=0.5, **kwargs):
+        assert(0 <= height_threshold <= 1)
+        self.height_threshold = height_threshold
+        super().__init__(*args, **kwargs)
+
+    def allocate_compressors(self):
+        return UnsignedThresholdApproxCompressorMultiplier.allocate_compressors(self)
+
+    
 class UnsignedApproxPredefinedCompressorBWMultiplier(UnsignedApproxCompressorBasedMultiplier):
     def __init__(self, *args, max_compressor_bw=3, **kwargs):
         # set max compressor bandwidth
@@ -462,3 +472,32 @@ class UnsignedApproxPredefinedCompressorBWMultiplier(UnsignedApproxCompressorBas
                     self._add_half_adder(column_idx)
                 else:
                     self._add_full_adder(column_idx, prefix_suffix="fa_exact")
+
+class SignedApproxPredefinedCompressorBWMultiplier(SignedApproxCompressorBasedMultiplier):
+    def __init__(self, *args, max_compressor_bw=3, **kwargs):
+        # set max compressor bandwidth
+        assert(max_compressor_bw >= 3)
+        self.max_compressor_bw = max_compressor_bw
+        super().__init__(*args, **kwargs)
+
+    def connect_components(self, column_idx, fa_count, ha_count, j, use_approx):
+        return UnsignedApproxPredefinedCompressorBWMultiplier.connect_components(self, column_idx, fa_count, ha_count, j, use_approx)
+
+
+class UnsignedThresholdPredefinedBWApproxCompressorMultiplier(UnsignedThresholdApproxCompressorMultiplier):
+    def __init__(self, *args, max_compressor_bw=3, **kwargs):
+        assert(max_compressor_bw >= 3)
+        self.max_compressor_bw = max_compressor_bw
+        super().__init__(*args, **kwargs)
+
+    def connect_components(self, column_idx, fa_count, ha_count, j, use_approx):
+        return UnsignedApproxPredefinedCompressorBWMultiplier.connect_components(self, column_idx, fa_count, ha_count, j, use_approx)
+    
+class SignedThresholdPredefinedBWApproxCompressorMultiplier(SignedThresholdApproxCompressorMultiplier):
+    def __init__(self, *args, max_compressor_bw=3, **kwargs):
+        assert(max_compressor_bw >= 3)
+        self.max_compressor_bw = max_compressor_bw
+        super().__init__(*args, **kwargs)
+
+    def connect_components(self, column_idx, fa_count, ha_count, j, use_approx):
+        return UnsignedApproxPredefinedCompressorBWMultiplier.connect_components(self, column_idx, fa_count, ha_count, j, use_approx)

@@ -69,7 +69,10 @@ from ariths_gen.multi_bit_circuits.approximate_multipliers import (
     UnsignedAccurateTwoBitMultiplier,
     UnsignedApproxCompressorBasedMultiplier,
     SignedApproxCompressorBasedMultiplier,
-    UnsignedQuarterApproxCompressorMultiplier
+    UnsignedQuarterApproxCompressorMultiplier,
+    SignedQuarterApproxCompressorMultiplier,
+    UnsignedThresholdApproxCompressorMultiplier,
+    UnsignedApproxPredefinedCompressorBWMultiplier
 )
 
 from ariths_gen.one_bit_circuits.logic_gates import (
@@ -196,11 +199,11 @@ def test_unsigned_mul():
                 r = mul(av, bv)
                 np.testing.assert_array_equal(expected, r)
 
-def evaluate_error_metrics(multiplier, N=8, variant="General", signed=False):
+def evaluate_error_metrics(multiplier, N=8, variant="General", signed=False, **kwargs):
     a = Bus(N=N, prefix="a")
     b = Bus(N=N, prefix="b")
 
-    mul = multiplier(a=a, b=b, variant=variant)
+    mul = multiplier(a=a, b=b, variant=variant, **kwargs)
 
     if signed:
         av = np.arange(-(2**(N-1)), 2**(N-1))
@@ -253,6 +256,63 @@ def test_unsigned_quarter_approx_compressor_mul():
         )
 
         print("\nUnsigned Quarter Variant:", variant)
+        print("ER   :", ER)
+        print("ME   :", ME)
+        print("NoEB :", NoEB)
+    print("========================")
+
+def test_signed_quarter_approx_compressor_mul():
+    N = 8
+
+    variants = ["1StepFull", "1StepTrunc", "2StepsFull", "2StepsTrunc"]
+
+    for variant in variants:
+        ER, ME, NoEB = evaluate_error_metrics(
+            SignedQuarterApproxCompressorMultiplier,
+            N=N,
+            variant=variant
+        )
+
+        print("\nSigned Quarter Variant:", variant)
+        print("ER   :", ER)
+        print("ME   :", ME)
+        print("NoEB :", NoEB)
+    print("========================")
+
+
+def test_unsigned_threshold_approx_compressor_mul(threshold):
+    N = 8
+
+    variants = ["1StepFull", "1StepTrunc", "2StepsFull", "2StepsTrunc"]
+
+    for variant in variants:
+        ER, ME, NoEB = evaluate_error_metrics(
+            UnsignedThresholdApproxCompressorMultiplier,
+            N=N,
+            variant=variant,
+            height_threshold=threshold
+        )
+
+        print(f"\nUnsigned Threshold {threshold} Variant:", variant)
+        print("ER   :", ER)
+        print("ME   :", ME)
+        print("NoEB :", NoEB)
+    print("========================")
+
+def test_unsigned_approx_predefined_compressor_bw_mul(bw):
+    N = 8
+
+    variants = ["1StepFull", "1StepTrunc", "2StepsFull", "2StepsTrunc"]
+
+    for variant in variants:
+        ER, ME, NoEB = evaluate_error_metrics(
+            UnsignedApproxPredefinedCompressorBWMultiplier,
+            N=N,
+            variant=variant,
+            max_compressor_bw=bw
+        )
+
+        print(f"\nUnsigned Predefined Compressor BW {bw} Variant:", variant)
         print("ER   :", ER)
         print("ME   :", ME)
         print("NoEB :", NoEB)
@@ -528,6 +588,13 @@ if __name__ == "__main__":
     test_signed_approx_compressor_mul()
     print("++++++++++++++++++++++")
     test_unsigned_quarter_approx_compressor_mul()
+    test_signed_quarter_approx_compressor_mul()
+    print("++++++++++++++++++++++")
+    test_unsigned_threshold_approx_compressor_mul(threshold=0.5)
+    test_unsigned_threshold_approx_compressor_mul(threshold=0.75)
+    print("$$$$$$$$$$$$$$$$$$$$$$$")
+    test_unsigned_approx_predefined_compressor_bw_mul(bw=4)
+    test_unsigned_approx_predefined_compressor_bw_mul(bw=5)
     """ 
         test_unsigned_mul()
         test_signed_mul()

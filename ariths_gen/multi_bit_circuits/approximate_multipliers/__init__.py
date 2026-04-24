@@ -28,5 +28,6 @@ from ariths_gen.multi_bit_circuits.approximate_multipliers.compressor_multiplier
     SignedApproxCompressorBasedMultiplier,
     UnsignedQuarterApproxCompressorMultiplier,
     SignedQuarterApproxCompressorMultiplier,
-    UnsignedThresholdApproxCompressorMultiplier
+    UnsignedThresholdApproxCompressorMultiplier,
+    UnsignedApproxPredefinedCompressorBWMultiplier
 )

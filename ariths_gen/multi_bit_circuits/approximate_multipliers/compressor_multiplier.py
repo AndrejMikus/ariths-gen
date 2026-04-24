@@ -330,6 +330,11 @@ class SignedQuarterApproxCompressorMultiplier(SignedApproxCompressorBasedMultipl
         return num_columns // 4
 
 class UnsignedThresholdApproxCompressorMultiplier(UnsignedApproxCompressorBasedMultiplier):
+    def __init__(self, *args, height_threshold=0.5, **kwargs):
+        assert(0 <= height_threshold <= 1)
+        self.height_threshold = height_threshold
+        super().__init__(*args, **kwargs)
+
     def allocate_compressors(self):
         num_columns = len(self.columns)
         fa = [0] * num_columns
@@ -339,17 +344,18 @@ class UnsignedThresholdApproxCompressorMultiplier(UnsignedApproxCompressorBasedM
         h_next = [0] * num_columns
 
         h = [self.get_column_height(col) for col in range(num_columns)]
+        
 
-        threshold = max(3, int(getattr(self, "height_threshold", 3)))
+        threshold_height = 3 + self.height_threshold * (self.N - 2)
 
         low_part_limit = self._low_part_limit(num_columns)
 
         for col in range(low_part_limit):
-            if h[col] <= 2:
+            if h[col] < threshold_height:
                 j[col] = 0
                 h_next[col] = h[col]
             else:
-                j[col] = h[col] if h[col] >= threshold else 0
+                j[col] = h[col]
                 h_next[col] = math.ceil(h[col] / 2)
 
         for col in range(low_part_limit, 2 * self.N - 3):
@@ -366,15 +372,15 @@ class UnsignedThresholdApproxCompressorMultiplier(UnsignedApproxCompressorBasedM
             c_double_star = 2 * c_max - h[col + 1] + self.h_max_next
             c_double_star = max(0, c_double_star)
 
-            approx_compressors_count = 0
+            approx_compressors_width = 0
 
             if c_double_star < c_star:
                 C[col] = c_double_star
                 fa[col] = c_double_star
-                approx_compressors_count = 2 * (h[col] - self.h_max_next - 2 * fa[col] + C_prev)
+                approx_compressors_width = 2 * (h[col] - self.h_max_next - 2 * fa[col] + C_prev)
 
-                if (approx_compressors_count == 2) and (h[col] - 3 * fa[col] >= 3):
-                    approx_compressors_count = 3
+                if (approx_compressors_width == 2) and (h[col] - 3 * fa[col] >= 3):
+                    approx_compressors_width = 3
 
                 ha[col] = C[col] - fa[col]
             else:
@@ -383,13 +389,76 @@ class UnsignedThresholdApproxCompressorMultiplier(UnsignedApproxCompressorBasedM
                     fa[col] = math.ceil((h[col] - self.h_max_next + C_prev) / 2)
                     ha[col] = C[col] - fa[col]
 
-            approx_compressors_count = max(0, approx_compressors_count)
+            approx_compressors_width = max(0, approx_compressors_width)
 
-            if h[col] >= threshold:
-                j[col] = min(approx_compressors_count, h[col])
+            if h[col] >= threshold_height:
+                j[col] = min(approx_compressors_width, h[col])
             else:
                 j[col] = 0
 
-            h_next[col] = h[col] - 2 * fa[col] - ha[col] - math.ceil(j[col] / 2) + C_prev
+            h_next[col] = h[col] - 2 * fa[col] - ha[col] - math.floor(j[col] / 2) + C_prev
 
         return fa, ha, j, h, h_next, C
+    
+class UnsignedApproxPredefinedCompressorBWMultiplier(UnsignedApproxCompressorBasedMultiplier):
+    def __init__(self, *args, max_compressor_bw=3, **kwargs):
+        # set max compressor bandwidth
+        assert(max_compressor_bw >= 3)
+        self.max_compressor_bw = max_compressor_bw
+        super().__init__(*args, **kwargs)
+
+
+    def connect_components(self, column_idx, fa_count, ha_count, j, use_approx):
+        for _ in range(fa_count):
+            if self.get_column_height(column_idx) < 3:
+                break
+            self._add_full_adder(column_idx)
+
+        for _ in range(ha_count):
+            if self.get_column_height(column_idx) < 2:
+                break
+            self._add_half_adder(column_idx)
+
+        current_height = self.get_column_height(column_idx)
+        lowest_range_compr_bw = 3
+
+        if use_approx:
+            j = min(j, current_height)
+
+            compressor_out_bits_total = 0
+            bits_consumed_total = 0
+
+            while j >= lowest_range_compr_bw:
+                current_bw = min(j, self.max_compressor_bw)
+                
+                wires_to_compress = [self.add_column_wire(column=column_idx, bit=i) for i in range(current_bw)]
+                compressor_in_bus = Bus(
+                    prefix=f"{self.prefix}_compr_in_{column_idx}_{self.get_instance_num(cls=GeneralApproxMtoNCompressor)}",
+                    wires_list=wires_to_compress,
+                )
+
+                compressor = GeneralApproxMtoNCompressor(
+                    a=compressor_in_bus,
+                    prefix=f"{self.prefix}_compr_{column_idx}_{self.get_instance_num(cls=GeneralApproxMtoNCompressor)}",
+                    inner_component=True,
+                )
+                self.add_component(compressor)
+                
+                for _ in range(current_bw):
+                    self.columns[column_idx].pop(1)
+                for i in range(compressor.out.N):
+                    self.columns[column_idx].insert(len(self.columns[column_idx]), compressor.out.get_wire(i))
+
+                bits_consumed_total += current_bw
+                compressor_out_bits_total += compressor.out.N
+                j -= current_bw
+
+            self.update_column_heights(curr_column=column_idx, curr_height_change=-(bits_consumed_total - compressor_out_bits_total))
+
+        else:
+            # reduction using dadda rules
+            while self.get_column_height(column_idx) > self.h_max_next:
+                if self.get_column_height(column_idx) == self.h_max_next + 1:
+                    self._add_half_adder(column_idx)
+                else:
+                    self._add_full_adder(column_idx, prefix_suffix="fa_exact")

@@ -26,12 +26,22 @@ from ariths_gen.multi_bit_circuits.approximate_multipliers.recursive_multiplier 
 from ariths_gen.multi_bit_circuits.approximate_multipliers.compressor_multiplier import (
     UnsignedApproxCompressorBasedMultiplier,
     SignedApproxCompressorBasedMultiplier,
+
     UnsignedQuarterApproxCompressorMultiplier,
     SignedQuarterApproxCompressorMultiplier,
+
     UnsignedThresholdApproxCompressorMultiplier,
     SignedThresholdApproxCompressorMultiplier,
-    UnsignedApproxPredefinedCompressorBWMultiplier,
-    SignedApproxPredefinedCompressorBWMultiplier,
-    UnsignedThresholdPredefinedBWApproxCompressorMultiplier,
-    SignedThresholdPredefinedBWApproxCompressorMultiplier,
+
+    UnsignedApproxGreedyPredefinedCompressorBWMultiplier,
+    SignedApproxGreedyPredefinedCompressorBWMultiplier,
+    
+    UnsignedThresholdGreedyPredefinedBWApproxCompressorMultiplier,
+    SignedThresholdGreedyPredefinedBWApproxCompressorMultiplier,
+
+    UnsignedApproxBalancedPredefinedBWCompressorMultiplier,
+    SignedApproxBalancedPredefinedBWCompressorMultiplier,
+
+    UnsignedThresholdBalancedPredefinedBWApproxCompressorMultiplier,
+    SignedThresholdBalancedPredefinedBWApproxCompressorMultiplier
 )

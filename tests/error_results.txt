@@ -338,6 +338,48 @@ ME   : 226.0625
 NoEB : 7.891776761680266
 ========================
 
+Unsigned Balanced Predefined Compressor BW 3 Variant: 1StepFull
+ER   : 0.171173095703125
+ME   : 20.6875
+NoEB : 9.997276876375402
+
+Unsigned Balanced Predefined Compressor BW 3 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Balanced Predefined Compressor BW 3 Variant: 2StepsFull
+ER   : 0.493621826171875
+ME   : 393.5234375
+NoEB : 6.134829700600777
+
+Unsigned Balanced Predefined Compressor BW 3 Variant: 2StepsTrunc
+ER   : 0.966461181640625
+ME   : 555.55078125
+NoEB : 5.987453729549907
+========================
+
+Signed Balanced Predefined Compressor BW 3 Variant: 1StepFull
+ER   : 0.287567138671875
+ME   : 40.6875
+NoEB : 9.513275867356764
+
+Signed Balanced Predefined Compressor BW 3 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Balanced Predefined Compressor BW 3 Variant: 2StepsFull
+ER   : 0.79931640625
+ME   : 873.4609375
+NoEB : 5.471699477807141
+
+Signed Balanced Predefined Compressor BW 3 Variant: 2StepsTrunc
+ER   : 0.978546142578125
+ME   : 1035.48828125
+NoEB : 5.361500306242672
+========================
+
 Unsigned Predefined Compressor BW 4 Variant: 1StepFull
 ER   : 0.1804351806640625
 ME   : 21.625
@@ -375,6 +417,48 @@ ME   : 873.4609375
 NoEB : 5.471699477807141
 
 Signed Predefined Compressor BW 4 Variant: 2StepsTrunc
+ER   : 0.978546142578125
+ME   : 1035.48828125
+NoEB : 5.361500306242672
+========================
+
+Unsigned Balanced Predefined Compressor BW 4 Variant: 1StepFull
+ER   : 0.171173095703125
+ME   : 20.6875
+NoEB : 9.997276876375402
+
+Unsigned Balanced Predefined Compressor BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Balanced Predefined Compressor BW 4 Variant: 2StepsFull
+ER   : 0.493621826171875
+ME   : 393.5234375
+NoEB : 6.134829700600777
+
+Unsigned Balanced Predefined Compressor BW 4 Variant: 2StepsTrunc
+ER   : 0.966461181640625
+ME   : 555.55078125
+NoEB : 5.987453729549907
+========================
+
+Signed Balanced Predefined Compressor BW 4 Variant: 1StepFull
+ER   : 0.287567138671875
+ME   : 40.6875
+NoEB : 9.513275867356764
+
+Signed Balanced Predefined Compressor BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Balanced Predefined Compressor BW 4 Variant: 2StepsFull
+ER   : 0.79931640625
+ME   : 873.4609375
+NoEB : 5.471699477807141
+
+Signed Balanced Predefined Compressor BW 4 Variant: 2StepsTrunc
 ER   : 0.978546142578125
 ME   : 1035.48828125
 NoEB : 5.361500306242672
@@ -421,635 +505,1307 @@ ER   : 0.96875
 ME   : 268.57421875
 NoEB : 7.649970706931754
 ========================
+
+Unsigned Balanced Predefined Compressor BW 5 Variant: 1StepFull
+ER   : 0.171173095703125
+ME   : 20.6875
+NoEB : 9.997276876375402
+
+Unsigned Balanced Predefined Compressor BW 5 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Balanced Predefined Compressor BW 5 Variant: 2StepsFull
+ER   : 0.493621826171875
+ME   : 393.5234375
+NoEB : 6.134829700600777
+
+Unsigned Balanced Predefined Compressor BW 5 Variant: 2StepsTrunc
+ER   : 0.966461181640625
+ME   : 555.55078125
+NoEB : 5.987453729549907
+========================
+
+Signed Balanced Predefined Compressor BW 5 Variant: 1StepFull
+ER   : 0.287567138671875
+ME   : 40.6875
+NoEB : 9.513275867356764
+
+Signed Balanced Predefined Compressor BW 5 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Balanced Predefined Compressor BW 5 Variant: 2StepsFull
+ER   : 0.79931640625
+ME   : 873.4609375
+NoEB : 5.471699477807141
+
+Signed Balanced Predefined Compressor BW 5 Variant: 2StepsTrunc
+ER   : 0.978546142578125
+ME   : 1035.48828125
+NoEB : 5.361500306242672
+========================
 #######################
 
-Unsigned Threshold 0.25 + Predefined BW 3 Variant: 1StepFull
+Unsigned Threshold 0.25 + Greedy Predefined BW 3 Variant: 1StepFull
 ER   : 0.06805419921875
 ME   : 7.25
 NoEB : 10.88665485875391
 
-Unsigned Threshold 0.25 + Predefined BW 3 Variant: 1StepTrunc
+Unsigned Threshold 0.25 + Greedy Predefined BW 3 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 196.25
 NoEB : 8.136277724375972
 
-Unsigned Threshold 0.25 + Predefined BW 3 Variant: 2StepsFull
+Unsigned Threshold 0.25 + Greedy Predefined BW 3 Variant: 2StepsFull
 ER   : 0.1436614990234375
 ME   : 19.1875
 NoEB : 10.095047848265164
 
-Unsigned Threshold 0.25 + Predefined BW 3 Variant: 2StepsTrunc
+Unsigned Threshold 0.25 + Greedy Predefined BW 3 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 205.6875
 NoEB : 8.036193444229676
 ========================
 
-Signed Threshold 0.25 + Predefined BW 3 Variant: 1StepFull
+Signed Threshold 0.25 + Greedy Predefined BW 3 Variant: 1StepFull
 ER   : 0.09832763671875
 ME   : 11.25
 NoEB : 10.61230544990384
 
-Signed Threshold 0.25 + Predefined BW 3 Variant: 1StepTrunc
+Signed Threshold 0.25 + Greedy Predefined BW 3 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 200.25
 NoEB : 8.102778820418521
 
-Signed Threshold 0.25 + Predefined BW 3 Variant: 2StepsFull
+Signed Threshold 0.25 + Greedy Predefined BW 3 Variant: 2StepsFull
 ER   : 0.2654571533203125
 ME   : 39.5625
 NoEB : 9.556815517004402
 
-Signed Threshold 0.25 + Predefined BW 3 Variant: 2StepsTrunc
+Signed Threshold 0.25 + Greedy Predefined BW 3 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 226.0625
 NoEB : 7.891776761680266
 ========================
 
-Unsigned Threshold 0.25 + Predefined BW 4 Variant: 1StepFull
-ER   : 0.162933349609375
-ME   : 21.125
-NoEB : 9.978326126642628
+Unsigned Threshold 0.25 + Balanced BW 3 Variant: 1StepFull
+ER   : 0.1507415771484375
+ME   : 20.1875
+NoEB : 10.016651547631987
 
-Unsigned Threshold 0.25 + Predefined BW 4 Variant: 1StepTrunc
+Unsigned Threshold 0.25 + Balanced BW 3 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 206.25
 NoEB : 8.029834359349007
 
-Unsigned Threshold 0.25 + Predefined BW 4 Variant: 2StepsFull
-ER   : 0.162933349609375
-ME   : 21.125
-NoEB : 9.978326126642628
+Unsigned Threshold 0.25 + Balanced BW 3 Variant: 2StepsFull
+ER   : 0.1507415771484375
+ME   : 20.1875
+NoEB : 10.016651547631987
 
-Unsigned Threshold 0.25 + Predefined BW 4 Variant: 2StepsTrunc
+Unsigned Threshold 0.25 + Balanced BW 3 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 206.25
 NoEB : 8.029834359349007
 ========================
 
-Signed Threshold 0.25 + Predefined BW 4 Variant: 1StepFull
-ER   : 0.277374267578125
-ME   : 41.125
-NoEB : 9.495029362939656
+Signed Threshold 0.25 + Balanced BW 3 Variant: 1StepFull
+ER   : 0.2693939208984375
+ME   : 40.1875
+NoEB : 9.5245429300506
 
-Signed Threshold 0.25 + Predefined BW 4 Variant: 1StepTrunc
+Signed Threshold 0.25 + Balanced BW 3 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 226.25
 NoEB : 7.889319010083717
 
-Signed Threshold 0.25 + Predefined BW 4 Variant: 2StepsFull
-ER   : 0.277374267578125
-ME   : 41.125
-NoEB : 9.495029362939656
+Signed Threshold 0.25 + Balanced BW 3 Variant: 2StepsFull
+ER   : 0.2693939208984375
+ME   : 40.1875
+NoEB : 9.5245429300506
 
-Signed Threshold 0.25 + Predefined BW 4 Variant: 2StepsTrunc
+Signed Threshold 0.25 + Balanced BW 3 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 226.25
 NoEB : 7.889319010083717
 ========================
 
-Unsigned Threshold 0.25 + Predefined BW 5 Variant: 1StepFull
+Unsigned Threshold 0.25 + Greedy Predefined BW 4 Variant: 1StepFull
+ER   : 0.162933349609375
+ME   : 21.125
+NoEB : 9.978326126642628
+
+Unsigned Threshold 0.25 + Greedy Predefined BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Threshold 0.25 + Greedy Predefined BW 4 Variant: 2StepsFull
+ER   : 0.162933349609375
+ME   : 21.125
+NoEB : 9.978326126642628
+
+Unsigned Threshold 0.25 + Greedy Predefined BW 4 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+========================
+
+Signed Threshold 0.25 + Greedy Predefined BW 4 Variant: 1StepFull
+ER   : 0.277374267578125
+ME   : 41.125
+NoEB : 9.495029362939656
+
+Signed Threshold 0.25 + Greedy Predefined BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Threshold 0.25 + Greedy Predefined BW 4 Variant: 2StepsFull
+ER   : 0.277374267578125
+ME   : 41.125
+NoEB : 9.495029362939656
+
+Signed Threshold 0.25 + Greedy Predefined BW 4 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+========================
+
+Unsigned Threshold 0.25 + Balanced BW 4 Variant: 1StepFull
+ER   : 0.1507415771484375
+ME   : 20.1875
+NoEB : 10.016651547631987
+
+Unsigned Threshold 0.25 + Balanced BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Threshold 0.25 + Balanced BW 4 Variant: 2StepsFull
+ER   : 0.1507415771484375
+ME   : 20.1875
+NoEB : 10.016651547631987
+
+Unsigned Threshold 0.25 + Balanced BW 4 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+========================
+
+Signed Threshold 0.25 + Balanced BW 4 Variant: 1StepFull
+ER   : 0.2693939208984375
+ME   : 40.1875
+NoEB : 9.5245429300506
+
+Signed Threshold 0.25 + Balanced BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Threshold 0.25 + Balanced BW 4 Variant: 2StepsFull
+ER   : 0.2693939208984375
+ME   : 40.1875
+NoEB : 9.5245429300506
+
+Signed Threshold 0.25 + Balanced BW 4 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+========================
+
+Unsigned Threshold 0.25 + Greedy Predefined BW 5 Variant: 1StepFull
 ER   : 0.11419677734375
 ME   : 12.3125
 NoEB : 10.489094832844012
 
-Unsigned Threshold 0.25 + Predefined BW 5 Variant: 1StepTrunc
+Unsigned Threshold 0.25 + Greedy Predefined BW 5 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 199.75
 NoEB : 8.097088042230386
 
-Unsigned Threshold 0.25 + Predefined BW 5 Variant: 2StepsFull
+Unsigned Threshold 0.25 + Greedy Predefined BW 5 Variant: 2StepsFull
 ER   : 0.2615966796875
 ME   : 41.94921875
 NoEB : 9.362786810799529
 
-Unsigned Threshold 0.25 + Predefined BW 5 Variant: 2StepsTrunc
+Unsigned Threshold 0.25 + Greedy Predefined BW 5 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 221.71484375
 NoEB : 7.892343595947029
 ========================
 
-Signed Threshold 0.25 + Predefined BW 5 Variant: 1StepFull
+Signed Threshold 0.25 + Greedy Predefined BW 5 Variant: 1StepFull
 ER   : 0.166839599609375
 ME   : 20.3125
 NoEB : 10.13291310423054
 
-Signed Threshold 0.25 + Predefined BW 5 Variant: 1StepTrunc
+Signed Threshold 0.25 + Greedy Predefined BW 5 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 207.75
 NoEB : 8.033468682742352
 
-Signed Threshold 0.25 + Predefined BW 5 Variant: 2StepsFull
+Signed Threshold 0.25 + Greedy Predefined BW 5 Variant: 2StepsFull
 ER   : 0.488250732421875
 ME   : 88.80859375
 NoEB : 8.793095891628814
 
-Signed Threshold 0.25 + Predefined BW 5 Variant: 2StepsTrunc
+Signed Threshold 0.25 + Greedy Predefined BW 5 Variant: 2StepsTrunc
 ER   : 0.96875
 ME   : 268.57421875
 NoEB : 7.649970706931754
 ========================
 
-Unsigned Threshold 0.4 + Predefined BW 3 Variant: 1StepFull
+Unsigned Threshold 0.25 + Balanced BW 5 Variant: 1StepFull
+ER   : 0.1507415771484375
+ME   : 20.1875
+NoEB : 10.016651547631987
+
+Unsigned Threshold 0.25 + Balanced BW 5 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Threshold 0.25 + Balanced BW 5 Variant: 2StepsFull
+ER   : 0.1507415771484375
+ME   : 20.1875
+NoEB : 10.016651547631987
+
+Unsigned Threshold 0.25 + Balanced BW 5 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+========================
+
+Signed Threshold 0.25 + Balanced BW 5 Variant: 1StepFull
+ER   : 0.2693939208984375
+ME   : 40.1875
+NoEB : 9.5245429300506
+
+Signed Threshold 0.25 + Balanced BW 5 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Threshold 0.25 + Balanced BW 5 Variant: 2StepsFull
+ER   : 0.2693939208984375
+ME   : 40.1875
+NoEB : 9.5245429300506
+
+Signed Threshold 0.25 + Balanced BW 5 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+========================
+
+Unsigned Threshold 0.4 + Greedy Predefined BW 3 Variant: 1StepFull
 ER   : 0.06121826171875
 ME   : 7.0
 NoEB : 10.910931693204748
 
-Unsigned Threshold 0.4 + Predefined BW 3 Variant: 1StepTrunc
+Unsigned Threshold 0.4 + Greedy Predefined BW 3 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 196.25
 NoEB : 8.136277724375972
 
-Unsigned Threshold 0.4 + Predefined BW 3 Variant: 2StepsFull
+Unsigned Threshold 0.4 + Greedy Predefined BW 3 Variant: 2StepsFull
 ER   : 0.11761474609375
 ME   : 16.4375
 NoEB : 10.226454948113151
 
-Unsigned Threshold 0.4 + Predefined BW 3 Variant: 2StepsTrunc
+Unsigned Threshold 0.4 + Greedy Predefined BW 3 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 205.6875
 NoEB : 8.036193444229676
 ========================
 
-Signed Threshold 0.4 + Predefined BW 3 Variant: 1StepFull
+Signed Threshold 0.4 + Greedy Predefined BW 3 Variant: 1StepFull
 ER   : 0.09149169921875
 ME   : 11.0
 NoEB : 10.628725841365767
 
-Signed Threshold 0.4 + Predefined BW 3 Variant: 1StepTrunc
+Signed Threshold 0.4 + Greedy Predefined BW 3 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 200.25
 NoEB : 8.102778820418521
 
-Signed Threshold 0.4 + Predefined BW 3 Variant: 2StepsFull
+Signed Threshold 0.4 + Greedy Predefined BW 3 Variant: 2StepsFull
 ER   : 0.2425537109375
 ME   : 36.8125
 NoEB : 9.6248545894863
 
-Signed Threshold 0.4 + Predefined BW 3 Variant: 2StepsTrunc
+Signed Threshold 0.4 + Greedy Predefined BW 3 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 226.0625
 NoEB : 7.891776761680266
 ========================
 
-Unsigned Threshold 0.4 + Predefined BW 4 Variant: 1StepFull
-ER   : 0.145904541015625
-ME   : 20.25
-NoEB : 10.018117987244151
+Unsigned Threshold 0.4 + Balanced BW 3 Variant: 1StepFull
+ER   : 0.1347808837890625
+ME   : 19.5
+NoEB : 10.047426749136843
 
-Unsigned Threshold 0.4 + Predefined BW 4 Variant: 1StepTrunc
+Unsigned Threshold 0.4 + Balanced BW 3 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 206.25
 NoEB : 8.029834359349007
 
-Unsigned Threshold 0.4 + Predefined BW 4 Variant: 2StepsFull
-ER   : 0.145904541015625
-ME   : 20.25
-NoEB : 10.018117987244151
+Unsigned Threshold 0.4 + Balanced BW 3 Variant: 2StepsFull
+ER   : 0.1347808837890625
+ME   : 19.5
+NoEB : 10.047426749136843
 
-Unsigned Threshold 0.4 + Predefined BW 4 Variant: 2StepsTrunc
+Unsigned Threshold 0.4 + Balanced BW 3 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 206.25
 NoEB : 8.029834359349007
 ========================
 
-Signed Threshold 0.4 + Predefined BW 4 Variant: 1StepFull
-ER   : 0.264068603515625
-ME   : 40.25
-NoEB : 9.520500268111839
+Signed Threshold 0.4 + Balanced BW 3 Variant: 1StepFull
+ER   : 0.2562408447265625
+ME   : 39.5
+NoEB : 9.542880491573252
 
-Signed Threshold 0.4 + Predefined BW 4 Variant: 1StepTrunc
+Signed Threshold 0.4 + Balanced BW 3 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 226.25
 NoEB : 7.889319010083717
 
-Signed Threshold 0.4 + Predefined BW 4 Variant: 2StepsFull
-ER   : 0.264068603515625
-ME   : 40.25
-NoEB : 9.520500268111839
+Signed Threshold 0.4 + Balanced BW 3 Variant: 2StepsFull
+ER   : 0.2562408447265625
+ME   : 39.5
+NoEB : 9.542880491573252
 
-Signed Threshold 0.4 + Predefined BW 4 Variant: 2StepsTrunc
+Signed Threshold 0.4 + Balanced BW 3 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 226.25
 NoEB : 7.889319010083717
 ========================
 
-Unsigned Threshold 0.4 + Predefined BW 5 Variant: 1StepFull
+Unsigned Threshold 0.4 + Greedy Predefined BW 4 Variant: 1StepFull
+ER   : 0.145904541015625
+ME   : 20.25
+NoEB : 10.018117987244151
+
+Unsigned Threshold 0.4 + Greedy Predefined BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Threshold 0.4 + Greedy Predefined BW 4 Variant: 2StepsFull
+ER   : 0.145904541015625
+ME   : 20.25
+NoEB : 10.018117987244151
+
+Unsigned Threshold 0.4 + Greedy Predefined BW 4 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+========================
+
+Signed Threshold 0.4 + Greedy Predefined BW 4 Variant: 1StepFull
+ER   : 0.264068603515625
+ME   : 40.25
+NoEB : 9.520500268111839
+
+Signed Threshold 0.4 + Greedy Predefined BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Threshold 0.4 + Greedy Predefined BW 4 Variant: 2StepsFull
+ER   : 0.264068603515625
+ME   : 40.25
+NoEB : 9.520500268111839
+
+Signed Threshold 0.4 + Greedy Predefined BW 4 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+========================
+
+Unsigned Threshold 0.4 + Balanced BW 4 Variant: 1StepFull
+ER   : 0.1347808837890625
+ME   : 19.5
+NoEB : 10.047426749136843
+
+Unsigned Threshold 0.4 + Balanced BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Threshold 0.4 + Balanced BW 4 Variant: 2StepsFull
+ER   : 0.1347808837890625
+ME   : 19.5
+NoEB : 10.047426749136843
+
+Unsigned Threshold 0.4 + Balanced BW 4 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+========================
+
+Signed Threshold 0.4 + Balanced BW 4 Variant: 1StepFull
+ER   : 0.2562408447265625
+ME   : 39.5
+NoEB : 9.542880491573252
+
+Signed Threshold 0.4 + Balanced BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Threshold 0.4 + Balanced BW 4 Variant: 2StepsFull
+ER   : 0.2562408447265625
+ME   : 39.5
+NoEB : 9.542880491573252
+
+Signed Threshold 0.4 + Balanced BW 4 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+========================
+
+Unsigned Threshold 0.4 + Greedy Predefined BW 5 Variant: 1StepFull
 ER   : 0.0973968505859375
 ME   : 11.625
 NoEB : 10.534872264353751
 
-Unsigned Threshold 0.4 + Predefined BW 5 Variant: 1StepTrunc
+Unsigned Threshold 0.4 + Greedy Predefined BW 5 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 199.75
 NoEB : 8.097088042230386
 
-Unsigned Threshold 0.4 + Predefined BW 5 Variant: 2StepsFull
+Unsigned Threshold 0.4 + Greedy Predefined BW 5 Variant: 2StepsFull
 ER   : 0.0973968505859375
 ME   : 11.625
 NoEB : 10.534872264353751
 
-Unsigned Threshold 0.4 + Predefined BW 5 Variant: 2StepsTrunc
+Unsigned Threshold 0.4 + Greedy Predefined BW 5 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 199.75
 NoEB : 8.097088042230386
 ========================
 
-Signed Threshold 0.4 + Predefined BW 5 Variant: 1StepFull
+Signed Threshold 0.4 + Greedy Predefined BW 5 Variant: 1StepFull
 ER   : 0.1508636474609375
 ME   : 19.625
 NoEB : 10.162604490425903
 
-Signed Threshold 0.4 + Predefined BW 5 Variant: 1StepTrunc
+Signed Threshold 0.4 + Greedy Predefined BW 5 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 207.75
 NoEB : 8.033468682742352
 
-Signed Threshold 0.4 + Predefined BW 5 Variant: 2StepsFull
+Signed Threshold 0.4 + Greedy Predefined BW 5 Variant: 2StepsFull
 ER   : 0.1508636474609375
 ME   : 19.625
 NoEB : 10.162604490425903
 
-Signed Threshold 0.4 + Predefined BW 5 Variant: 2StepsTrunc
+Signed Threshold 0.4 + Greedy Predefined BW 5 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 207.75
 NoEB : 8.033468682742352
 ========================
 
-Unsigned Threshold 0.5 + Predefined BW 3 Variant: 1StepFull
+Unsigned Threshold 0.4 + Balanced BW 5 Variant: 1StepFull
+ER   : 0.1347808837890625
+ME   : 19.5
+NoEB : 10.047426749136843
+
+Unsigned Threshold 0.4 + Balanced BW 5 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Threshold 0.4 + Balanced BW 5 Variant: 2StepsFull
+ER   : 0.1347808837890625
+ME   : 19.5
+NoEB : 10.047426749136843
+
+Unsigned Threshold 0.4 + Balanced BW 5 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+========================
+
+Signed Threshold 0.4 + Balanced BW 5 Variant: 1StepFull
+ER   : 0.2562408447265625
+ME   : 39.5
+NoEB : 9.542880491573252
+
+Signed Threshold 0.4 + Balanced BW 5 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Threshold 0.4 + Balanced BW 5 Variant: 2StepsFull
+ER   : 0.2562408447265625
+ME   : 39.5
+NoEB : 9.542880491573252
+
+Signed Threshold 0.4 + Balanced BW 5 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+========================
+
+Unsigned Threshold 0.5 + Greedy Predefined BW 3 Variant: 1StepFull
 ER   : 0.06121826171875
 ME   : 7.0
 NoEB : 10.910931693204748
 
-Unsigned Threshold 0.5 + Predefined BW 3 Variant: 1StepTrunc
+Unsigned Threshold 0.5 + Greedy Predefined BW 3 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 196.25
 NoEB : 8.136277724375972
 
-Unsigned Threshold 0.5 + Predefined BW 3 Variant: 2StepsFull
+Unsigned Threshold 0.5 + Greedy Predefined BW 3 Variant: 2StepsFull
 ER   : 0.11761474609375
 ME   : 16.4375
 NoEB : 10.226454948113151
 
-Unsigned Threshold 0.5 + Predefined BW 3 Variant: 2StepsTrunc
+Unsigned Threshold 0.5 + Greedy Predefined BW 3 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 205.6875
 NoEB : 8.036193444229676
 ========================
 
-Signed Threshold 0.5 + Predefined BW 3 Variant: 1StepFull
+Signed Threshold 0.5 + Greedy Predefined BW 3 Variant: 1StepFull
 ER   : 0.09149169921875
 ME   : 11.0
 NoEB : 10.628725841365767
 
-Signed Threshold 0.5 + Predefined BW 3 Variant: 1StepTrunc
+Signed Threshold 0.5 + Greedy Predefined BW 3 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 200.25
 NoEB : 8.102778820418521
 
-Signed Threshold 0.5 + Predefined BW 3 Variant: 2StepsFull
+Signed Threshold 0.5 + Greedy Predefined BW 3 Variant: 2StepsFull
 ER   : 0.2425537109375
 ME   : 36.8125
 NoEB : 9.6248545894863
 
-Signed Threshold 0.5 + Predefined BW 3 Variant: 2StepsTrunc
+Signed Threshold 0.5 + Greedy Predefined BW 3 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 226.0625
 NoEB : 7.891776761680266
 ========================
 
-Unsigned Threshold 0.5 + Predefined BW 4 Variant: 1StepFull
+Unsigned Threshold 0.5 + Balanced BW 3 Variant: 1StepFull
+ER   : 0.1347808837890625
+ME   : 19.5
+NoEB : 10.047426749136843
+
+Unsigned Threshold 0.5 + Balanced BW 3 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Threshold 0.5 + Balanced BW 3 Variant: 2StepsFull
+ER   : 0.1347808837890625
+ME   : 19.5
+NoEB : 10.047426749136843
+
+Unsigned Threshold 0.5 + Balanced BW 3 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+========================
+
+Signed Threshold 0.5 + Balanced BW 3 Variant: 1StepFull
+ER   : 0.2562408447265625
+ME   : 39.5
+NoEB : 9.542880491573252
+
+Signed Threshold 0.5 + Balanced BW 3 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Threshold 0.5 + Balanced BW 3 Variant: 2StepsFull
+ER   : 0.2562408447265625
+ME   : 39.5
+NoEB : 9.542880491573252
+
+Signed Threshold 0.5 + Balanced BW 3 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+========================
+
+Unsigned Threshold 0.5 + Greedy Predefined BW 4 Variant: 1StepFull
 ER   : 0.145904541015625
 ME   : 20.25
 NoEB : 10.018117987244151
 
-Unsigned Threshold 0.5 + Predefined BW 4 Variant: 1StepTrunc
+Unsigned Threshold 0.5 + Greedy Predefined BW 4 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 206.25
 NoEB : 8.029834359349007
 
-Unsigned Threshold 0.5 + Predefined BW 4 Variant: 2StepsFull
+Unsigned Threshold 0.5 + Greedy Predefined BW 4 Variant: 2StepsFull
 ER   : 0.145904541015625
 ME   : 20.25
 NoEB : 10.018117987244151
 
-Unsigned Threshold 0.5 + Predefined BW 4 Variant: 2StepsTrunc
+Unsigned Threshold 0.5 + Greedy Predefined BW 4 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 206.25
 NoEB : 8.029834359349007
 ========================
 
-Signed Threshold 0.5 + Predefined BW 4 Variant: 1StepFull
+Signed Threshold 0.5 + Greedy Predefined BW 4 Variant: 1StepFull
 ER   : 0.264068603515625
 ME   : 40.25
 NoEB : 9.520500268111839
 
-Signed Threshold 0.5 + Predefined BW 4 Variant: 1StepTrunc
+Signed Threshold 0.5 + Greedy Predefined BW 4 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 226.25
 NoEB : 7.889319010083717
 
-Signed Threshold 0.5 + Predefined BW 4 Variant: 2StepsFull
+Signed Threshold 0.5 + Greedy Predefined BW 4 Variant: 2StepsFull
 ER   : 0.264068603515625
 ME   : 40.25
 NoEB : 9.520500268111839
 
-Signed Threshold 0.5 + Predefined BW 4 Variant: 2StepsTrunc
+Signed Threshold 0.5 + Greedy Predefined BW 4 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 226.25
 NoEB : 7.889319010083717
 ========================
 
-Unsigned Threshold 0.5 + Predefined BW 5 Variant: 1StepFull
+Unsigned Threshold 0.5 + Balanced BW 4 Variant: 1StepFull
+ER   : 0.1347808837890625
+ME   : 19.5
+NoEB : 10.047426749136843
+
+Unsigned Threshold 0.5 + Balanced BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Threshold 0.5 + Balanced BW 4 Variant: 2StepsFull
+ER   : 0.1347808837890625
+ME   : 19.5
+NoEB : 10.047426749136843
+
+Unsigned Threshold 0.5 + Balanced BW 4 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+========================
+
+Signed Threshold 0.5 + Balanced BW 4 Variant: 1StepFull
+ER   : 0.2562408447265625
+ME   : 39.5
+NoEB : 9.542880491573252
+
+Signed Threshold 0.5 + Balanced BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Threshold 0.5 + Balanced BW 4 Variant: 2StepsFull
+ER   : 0.2562408447265625
+ME   : 39.5
+NoEB : 9.542880491573252
+
+Signed Threshold 0.5 + Balanced BW 4 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+========================
+
+Unsigned Threshold 0.5 + Greedy Predefined BW 5 Variant: 1StepFull
 ER   : 0.0973968505859375
 ME   : 11.625
 NoEB : 10.534872264353751
 
-Unsigned Threshold 0.5 + Predefined BW 5 Variant: 1StepTrunc
+Unsigned Threshold 0.5 + Greedy Predefined BW 5 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 199.75
 NoEB : 8.097088042230386
 
-Unsigned Threshold 0.5 + Predefined BW 5 Variant: 2StepsFull
+Unsigned Threshold 0.5 + Greedy Predefined BW 5 Variant: 2StepsFull
 ER   : 0.0973968505859375
 ME   : 11.625
 NoEB : 10.534872264353751
 
-Unsigned Threshold 0.5 + Predefined BW 5 Variant: 2StepsTrunc
+Unsigned Threshold 0.5 + Greedy Predefined BW 5 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 199.75
 NoEB : 8.097088042230386
 ========================
 
-Signed Threshold 0.5 + Predefined BW 5 Variant: 1StepFull
+Signed Threshold 0.5 + Greedy Predefined BW 5 Variant: 1StepFull
 ER   : 0.1508636474609375
 ME   : 19.625
 NoEB : 10.162604490425903
 
-Signed Threshold 0.5 + Predefined BW 5 Variant: 1StepTrunc
+Signed Threshold 0.5 + Greedy Predefined BW 5 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 207.75
 NoEB : 8.033468682742352
 
-Signed Threshold 0.5 + Predefined BW 5 Variant: 2StepsFull
+Signed Threshold 0.5 + Greedy Predefined BW 5 Variant: 2StepsFull
 ER   : 0.1508636474609375
 ME   : 19.625
 NoEB : 10.162604490425903
 
-Signed Threshold 0.5 + Predefined BW 5 Variant: 2StepsTrunc
+Signed Threshold 0.5 + Greedy Predefined BW 5 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 207.75
 NoEB : 8.033468682742352
 ========================
 
-Unsigned Threshold 0.6 + Predefined BW 3 Variant: 1StepFull
+Unsigned Threshold 0.5 + Balanced BW 5 Variant: 1StepFull
+ER   : 0.1347808837890625
+ME   : 19.5
+NoEB : 10.047426749136843
+
+Unsigned Threshold 0.5 + Balanced BW 5 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Threshold 0.5 + Balanced BW 5 Variant: 2StepsFull
+ER   : 0.1347808837890625
+ME   : 19.5
+NoEB : 10.047426749136843
+
+Unsigned Threshold 0.5 + Balanced BW 5 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+========================
+
+Signed Threshold 0.5 + Balanced BW 5 Variant: 1StepFull
+ER   : 0.2562408447265625
+ME   : 39.5
+NoEB : 9.542880491573252
+
+Signed Threshold 0.5 + Balanced BW 5 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Threshold 0.5 + Balanced BW 5 Variant: 2StepsFull
+ER   : 0.2562408447265625
+ME   : 39.5
+NoEB : 9.542880491573252
+
+Signed Threshold 0.5 + Balanced BW 5 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+========================
+
+Unsigned Threshold 0.6 + Greedy Predefined BW 3 Variant: 1StepFull
 ER   : 0.0462646484375
 ME   : 6.0
 NoEB : 11.031977705454626
 
-Unsigned Threshold 0.6 + Predefined BW 3 Variant: 1StepTrunc
+Unsigned Threshold 0.6 + Greedy Predefined BW 3 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 196.25
 NoEB : 8.136277724375972
 
-Unsigned Threshold 0.6 + Predefined BW 3 Variant: 2StepsFull
+Unsigned Threshold 0.6 + Greedy Predefined BW 3 Variant: 2StepsFull
 ER   : 0.0462646484375
 ME   : 6.0
 NoEB : 11.031977705454626
 
-Unsigned Threshold 0.6 + Predefined BW 3 Variant: 2StepsTrunc
+Unsigned Threshold 0.6 + Greedy Predefined BW 3 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 196.25
 NoEB : 8.136277724375972
 ========================
 
-Signed Threshold 0.6 + Predefined BW 3 Variant: 1StepFull
+Signed Threshold 0.6 + Greedy Predefined BW 3 Variant: 1StepFull
 ER   : 0.0767822265625
 ME   : 10.0
 NoEB : 10.709746951049905
 
-Signed Threshold 0.6 + Predefined BW 3 Variant: 1StepTrunc
+Signed Threshold 0.6 + Greedy Predefined BW 3 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 200.25
 NoEB : 8.102778820418521
 
-Signed Threshold 0.6 + Predefined BW 3 Variant: 2StepsFull
+Signed Threshold 0.6 + Greedy Predefined BW 3 Variant: 2StepsFull
 ER   : 0.0767822265625
 ME   : 10.0
 NoEB : 10.709746951049905
 
-Signed Threshold 0.6 + Predefined BW 3 Variant: 2StepsTrunc
+Signed Threshold 0.6 + Greedy Predefined BW 3 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 200.25
 NoEB : 8.102778820418521
 ========================
 
-Unsigned Threshold 0.6 + Predefined BW 4 Variant: 1StepFull
+Unsigned Threshold 0.6 + Balanced BW 3 Variant: 1StepFull
 ER   : 0.1260223388671875
 ME   : 18.5
 NoEB : 10.111269814141309
 
-Unsigned Threshold 0.6 + Predefined BW 4 Variant: 1StepTrunc
+Unsigned Threshold 0.6 + Balanced BW 3 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 206.25
 NoEB : 8.029834359349007
 
-Unsigned Threshold 0.6 + Predefined BW 4 Variant: 2StepsFull
+Unsigned Threshold 0.6 + Balanced BW 3 Variant: 2StepsFull
 ER   : 0.1260223388671875
 ME   : 18.5
 NoEB : 10.111269814141309
 
-Unsigned Threshold 0.6 + Predefined BW 4 Variant: 2StepsTrunc
+Unsigned Threshold 0.6 + Balanced BW 3 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 206.25
 NoEB : 8.029834359349007
 ========================
 
-Signed Threshold 0.6 + Predefined BW 4 Variant: 1StepFull
+Signed Threshold 0.6 + Balanced BW 3 Variant: 1StepFull
 ER   : 0.2485198974609375
 ME   : 38.5
 NoEB : 9.57689996372299
 
-Signed Threshold 0.6 + Predefined BW 4 Variant: 1StepTrunc
+Signed Threshold 0.6 + Balanced BW 3 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 226.25
 NoEB : 7.889319010083717
 
-Signed Threshold 0.6 + Predefined BW 4 Variant: 2StepsFull
+Signed Threshold 0.6 + Balanced BW 3 Variant: 2StepsFull
 ER   : 0.2485198974609375
 ME   : 38.5
 NoEB : 9.57689996372299
 
-Signed Threshold 0.6 + Predefined BW 4 Variant: 2StepsTrunc
+Signed Threshold 0.6 + Balanced BW 3 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 226.25
 NoEB : 7.889319010083717
 ========================
 
-Unsigned Threshold 0.6 + Predefined BW 5 Variant: 1StepFull
-ER   : 0.0783538818359375
-ME   : 10.25
-NoEB : 10.64952052206841
+Unsigned Threshold 0.6 + Greedy Predefined BW 4 Variant: 1StepFull
+ER   : 0.1260223388671875
+ME   : 18.5
+NoEB : 10.111269814141309
 
-Unsigned Threshold 0.6 + Predefined BW 5 Variant: 1StepTrunc
-ER   : 0.96484375
-ME   : 199.75
-NoEB : 8.097088042230386
-
-Unsigned Threshold 0.6 + Predefined BW 5 Variant: 2StepsFull
-ER   : 0.0783538818359375
-ME   : 10.25
-NoEB : 10.64952052206841
-
-Unsigned Threshold 0.6 + Predefined BW 5 Variant: 2StepsTrunc
-ER   : 0.96484375
-ME   : 199.75
-NoEB : 8.097088042230386
-========================
-
-Signed Threshold 0.6 + Predefined BW 5 Variant: 1StepFull
-ER   : 0.1341705322265625
-ME   : 18.25
-NoEB : 10.239338891541736
-
-Signed Threshold 0.6 + Predefined BW 5 Variant: 1StepTrunc
-ER   : 0.96484375
-ME   : 207.75
-NoEB : 8.033468682742352
-
-Signed Threshold 0.6 + Predefined BW 5 Variant: 2StepsFull
-ER   : 0.1341705322265625
-ME   : 18.25
-NoEB : 10.239338891541736
-
-Signed Threshold 0.6 + Predefined BW 5 Variant: 2StepsTrunc
-ER   : 0.96484375
-ME   : 207.75
-NoEB : 8.033468682742352
-========================
-
-Unsigned Threshold 0.75 + Predefined BW 3 Variant: 1StepFull
-ER   : 0.031005859375
-ME   : 4.0
-NoEB : 11.426897670849993
-
-Unsigned Threshold 0.75 + Predefined BW 3 Variant: 1StepTrunc
-ER   : 0.96484375
-ME   : 196.25
-NoEB : 8.136277724375972
-
-Unsigned Threshold 0.75 + Predefined BW 3 Variant: 2StepsFull
-ER   : 0.031005859375
-ME   : 4.0
-NoEB : 11.426897670849993
-
-Unsigned Threshold 0.75 + Predefined BW 3 Variant: 2StepsTrunc
-ER   : 0.96484375
-ME   : 196.25
-NoEB : 8.136277724375972
-========================
-
-Signed Threshold 0.75 + Predefined BW 3 Variant: 1StepFull
-ER   : 0.061767578125
-ME   : 8.0
-NoEB : 10.939397955153353
-
-Signed Threshold 0.75 + Predefined BW 3 Variant: 1StepTrunc
-ER   : 0.96484375
-ME   : 200.25
-NoEB : 8.102778820418521
-
-Signed Threshold 0.75 + Predefined BW 3 Variant: 2StepsFull
-ER   : 0.061767578125
-ME   : 8.0
-NoEB : 10.939397955153353
-
-Signed Threshold 0.75 + Predefined BW 3 Variant: 2StepsTrunc
-ER   : 0.96484375
-ME   : 200.25
-NoEB : 8.102778820418521
-========================
-
-Unsigned Threshold 0.75 + Predefined BW 4 Variant: 1StepFull
-ER   : 0.0989837646484375
-ME   : 14.0
-NoEB : 10.43547124999257
-
-Unsigned Threshold 0.75 + Predefined BW 4 Variant: 1StepTrunc
+Unsigned Threshold 0.6 + Greedy Predefined BW 4 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 206.25
 NoEB : 8.029834359349007
 
-Unsigned Threshold 0.75 + Predefined BW 4 Variant: 2StepsFull
-ER   : 0.0989837646484375
-ME   : 14.0
-NoEB : 10.43547124999257
+Unsigned Threshold 0.6 + Greedy Predefined BW 4 Variant: 2StepsFull
+ER   : 0.1260223388671875
+ME   : 18.5
+NoEB : 10.111269814141309
 
-Unsigned Threshold 0.75 + Predefined BW 4 Variant: 2StepsTrunc
+Unsigned Threshold 0.6 + Greedy Predefined BW 4 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 206.25
 NoEB : 8.029834359349007
 ========================
 
-Signed Threshold 0.75 + Predefined BW 4 Variant: 1StepFull
-ER   : 0.2275238037109375
-ME   : 34.0
-NoEB : 9.74289322041291
+Signed Threshold 0.6 + Greedy Predefined BW 4 Variant: 1StepFull
+ER   : 0.2485198974609375
+ME   : 38.5
+NoEB : 9.57689996372299
 
-Signed Threshold 0.75 + Predefined BW 4 Variant: 1StepTrunc
+Signed Threshold 0.6 + Greedy Predefined BW 4 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 226.25
 NoEB : 7.889319010083717
 
-Signed Threshold 0.75 + Predefined BW 4 Variant: 2StepsFull
-ER   : 0.2275238037109375
-ME   : 34.0
-NoEB : 9.74289322041291
+Signed Threshold 0.6 + Greedy Predefined BW 4 Variant: 2StepsFull
+ER   : 0.2485198974609375
+ME   : 38.5
+NoEB : 9.57689996372299
 
-Signed Threshold 0.75 + Predefined BW 4 Variant: 2StepsTrunc
+Signed Threshold 0.6 + Greedy Predefined BW 4 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 226.25
 NoEB : 7.889319010083717
 ========================
 
-Unsigned Threshold 0.75 + Predefined BW 5 Variant: 1StepFull
-ER   : 0.0569610595703125
-ME   : 7.5
-NoEB : 10.962469884902255
+Unsigned Threshold 0.6 + Balanced BW 4 Variant: 1StepFull
+ER   : 0.1260223388671875
+ME   : 18.5
+NoEB : 10.111269814141309
 
-Unsigned Threshold 0.75 + Predefined BW 5 Variant: 1StepTrunc
+Unsigned Threshold 0.6 + Balanced BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Threshold 0.6 + Balanced BW 4 Variant: 2StepsFull
+ER   : 0.1260223388671875
+ME   : 18.5
+NoEB : 10.111269814141309
+
+Unsigned Threshold 0.6 + Balanced BW 4 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+========================
+
+Signed Threshold 0.6 + Balanced BW 4 Variant: 1StepFull
+ER   : 0.2485198974609375
+ME   : 38.5
+NoEB : 9.57689996372299
+
+Signed Threshold 0.6 + Balanced BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Threshold 0.6 + Balanced BW 4 Variant: 2StepsFull
+ER   : 0.2485198974609375
+ME   : 38.5
+NoEB : 9.57689996372299
+
+Signed Threshold 0.6 + Balanced BW 4 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+========================
+
+Unsigned Threshold 0.6 + Greedy Predefined BW 5 Variant: 1StepFull
+ER   : 0.0783538818359375
+ME   : 10.25
+NoEB : 10.64952052206841
+
+Unsigned Threshold 0.6 + Greedy Predefined BW 5 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 199.75
 NoEB : 8.097088042230386
 
-Unsigned Threshold 0.75 + Predefined BW 5 Variant: 2StepsFull
-ER   : 0.0569610595703125
-ME   : 7.5
-NoEB : 10.962469884902255
+Unsigned Threshold 0.6 + Greedy Predefined BW 5 Variant: 2StepsFull
+ER   : 0.0783538818359375
+ME   : 10.25
+NoEB : 10.64952052206841
 
-Unsigned Threshold 0.75 + Predefined BW 5 Variant: 2StepsTrunc
+Unsigned Threshold 0.6 + Greedy Predefined BW 5 Variant: 2StepsTrunc
 ER   : 0.96484375
 ME   : 199.75
 NoEB : 8.097088042230386
 ========================
 
-Signed Threshold 0.75 + Predefined BW 5 Variant: 1StepFull
-ER   : 0.1148223876953125
-ME   : 15.5
-NoEB : 10.419849880066135
+Signed Threshold 0.6 + Greedy Predefined BW 5 Variant: 1StepFull
+ER   : 0.1341705322265625
+ME   : 18.25
+NoEB : 10.239338891541736
 
-Signed Threshold 0.75 + Predefined BW 5 Variant: 1StepTrunc
+Signed Threshold 0.6 + Greedy Predefined BW 5 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 207.75
 NoEB : 8.033468682742352
 
-Signed Threshold 0.75 + Predefined BW 5 Variant: 2StepsFull
+Signed Threshold 0.6 + Greedy Predefined BW 5 Variant: 2StepsFull
+ER   : 0.1341705322265625
+ME   : 18.25
+NoEB : 10.239338891541736
+
+Signed Threshold 0.6 + Greedy Predefined BW 5 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 207.75
+NoEB : 8.033468682742352
+========================
+
+Unsigned Threshold 0.6 + Balanced BW 5 Variant: 1StepFull
+ER   : 0.1260223388671875
+ME   : 18.5
+NoEB : 10.111269814141309
+
+Unsigned Threshold 0.6 + Balanced BW 5 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Threshold 0.6 + Balanced BW 5 Variant: 2StepsFull
+ER   : 0.1260223388671875
+ME   : 18.5
+NoEB : 10.111269814141309
+
+Unsigned Threshold 0.6 + Balanced BW 5 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+========================
+
+Signed Threshold 0.6 + Balanced BW 5 Variant: 1StepFull
+ER   : 0.2485198974609375
+ME   : 38.5
+NoEB : 9.57689996372299
+
+Signed Threshold 0.6 + Balanced BW 5 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Threshold 0.6 + Balanced BW 5 Variant: 2StepsFull
+ER   : 0.2485198974609375
+ME   : 38.5
+NoEB : 9.57689996372299
+
+Signed Threshold 0.6 + Balanced BW 5 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+========================
+
+Unsigned Threshold 0.75 + Greedy Predefined BW 3 Variant: 1StepFull
+ER   : 0.031005859375
+ME   : 4.0
+NoEB : 11.426897670849993
+
+Unsigned Threshold 0.75 + Greedy Predefined BW 3 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 196.25
+NoEB : 8.136277724375972
+
+Unsigned Threshold 0.75 + Greedy Predefined BW 3 Variant: 2StepsFull
+ER   : 0.031005859375
+ME   : 4.0
+NoEB : 11.426897670849993
+
+Unsigned Threshold 0.75 + Greedy Predefined BW 3 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 196.25
+NoEB : 8.136277724375972
+========================
+
+Signed Threshold 0.75 + Greedy Predefined BW 3 Variant: 1StepFull
+ER   : 0.061767578125
+ME   : 8.0
+NoEB : 10.939397955153353
+
+Signed Threshold 0.75 + Greedy Predefined BW 3 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 200.25
+NoEB : 8.102778820418521
+
+Signed Threshold 0.75 + Greedy Predefined BW 3 Variant: 2StepsFull
+ER   : 0.061767578125
+ME   : 8.0
+NoEB : 10.939397955153353
+
+Signed Threshold 0.75 + Greedy Predefined BW 3 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 200.25
+NoEB : 8.102778820418521
+========================
+
+Unsigned Threshold 0.75 + Balanced BW 3 Variant: 1StepFull
+ER   : 0.0989837646484375
+ME   : 14.0
+NoEB : 10.43547124999257
+
+Unsigned Threshold 0.75 + Balanced BW 3 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Threshold 0.75 + Balanced BW 3 Variant: 2StepsFull
+ER   : 0.0989837646484375
+ME   : 14.0
+NoEB : 10.43547124999257
+
+Unsigned Threshold 0.75 + Balanced BW 3 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+========================
+
+Signed Threshold 0.75 + Balanced BW 3 Variant: 1StepFull
+ER   : 0.2275238037109375
+ME   : 34.0
+NoEB : 9.74289322041291
+
+Signed Threshold 0.75 + Balanced BW 3 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Threshold 0.75 + Balanced BW 3 Variant: 2StepsFull
+ER   : 0.2275238037109375
+ME   : 34.0
+NoEB : 9.74289322041291
+
+Signed Threshold 0.75 + Balanced BW 3 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+========================
+
+Unsigned Threshold 0.75 + Greedy Predefined BW 4 Variant: 1StepFull
+ER   : 0.0989837646484375
+ME   : 14.0
+NoEB : 10.43547124999257
+
+Unsigned Threshold 0.75 + Greedy Predefined BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Threshold 0.75 + Greedy Predefined BW 4 Variant: 2StepsFull
+ER   : 0.0989837646484375
+ME   : 14.0
+NoEB : 10.43547124999257
+
+Unsigned Threshold 0.75 + Greedy Predefined BW 4 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+========================
+
+Signed Threshold 0.75 + Greedy Predefined BW 4 Variant: 1StepFull
+ER   : 0.2275238037109375
+ME   : 34.0
+NoEB : 9.74289322041291
+
+Signed Threshold 0.75 + Greedy Predefined BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Threshold 0.75 + Greedy Predefined BW 4 Variant: 2StepsFull
+ER   : 0.2275238037109375
+ME   : 34.0
+NoEB : 9.74289322041291
+
+Signed Threshold 0.75 + Greedy Predefined BW 4 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+========================
+
+Unsigned Threshold 0.75 + Balanced BW 4 Variant: 1StepFull
+ER   : 0.0989837646484375
+ME   : 14.0
+NoEB : 10.43547124999257
+
+Unsigned Threshold 0.75 + Balanced BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Threshold 0.75 + Balanced BW 4 Variant: 2StepsFull
+ER   : 0.0989837646484375
+ME   : 14.0
+NoEB : 10.43547124999257
+
+Unsigned Threshold 0.75 + Balanced BW 4 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+========================
+
+Signed Threshold 0.75 + Balanced BW 4 Variant: 1StepFull
+ER   : 0.2275238037109375
+ME   : 34.0
+NoEB : 9.74289322041291
+
+Signed Threshold 0.75 + Balanced BW 4 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Threshold 0.75 + Balanced BW 4 Variant: 2StepsFull
+ER   : 0.2275238037109375
+ME   : 34.0
+NoEB : 9.74289322041291
+
+Signed Threshold 0.75 + Balanced BW 4 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+========================
+
+Unsigned Threshold 0.75 + Greedy Predefined BW 5 Variant: 1StepFull
+ER   : 0.0569610595703125
+ME   : 7.5
+NoEB : 10.962469884902255
+
+Unsigned Threshold 0.75 + Greedy Predefined BW 5 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 199.75
+NoEB : 8.097088042230386
+
+Unsigned Threshold 0.75 + Greedy Predefined BW 5 Variant: 2StepsFull
+ER   : 0.0569610595703125
+ME   : 7.5
+NoEB : 10.962469884902255
+
+Unsigned Threshold 0.75 + Greedy Predefined BW 5 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 199.75
+NoEB : 8.097088042230386
+========================
+
+Signed Threshold 0.75 + Greedy Predefined BW 5 Variant: 1StepFull
 ER   : 0.1148223876953125
 ME   : 15.5
 NoEB : 10.419849880066135
 
-Signed Threshold 0.75 + Predefined BW 5 Variant: 2StepsTrunc
+Signed Threshold 0.75 + Greedy Predefined BW 5 Variant: 1StepTrunc
 ER   : 0.96484375
 ME   : 207.75
 NoEB : 8.033468682742352
+
+Signed Threshold 0.75 + Greedy Predefined BW 5 Variant: 2StepsFull
+ER   : 0.1148223876953125
+ME   : 15.5
+NoEB : 10.419849880066135
+
+Signed Threshold 0.75 + Greedy Predefined BW 5 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 207.75
+NoEB : 8.033468682742352
+========================
+
+Unsigned Threshold 0.75 + Balanced BW 5 Variant: 1StepFull
+ER   : 0.0989837646484375
+ME   : 14.0
+NoEB : 10.43547124999257
+
+Unsigned Threshold 0.75 + Balanced BW 5 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+
+Unsigned Threshold 0.75 + Balanced BW 5 Variant: 2StepsFull
+ER   : 0.0989837646484375
+ME   : 14.0
+NoEB : 10.43547124999257
+
+Unsigned Threshold 0.75 + Balanced BW 5 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 206.25
+NoEB : 8.029834359349007
+========================
+
+Signed Threshold 0.75 + Balanced BW 5 Variant: 1StepFull
+ER   : 0.2275238037109375
+ME   : 34.0
+NoEB : 9.74289322041291
+
+Signed Threshold 0.75 + Balanced BW 5 Variant: 1StepTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
+
+Signed Threshold 0.75 + Balanced BW 5 Variant: 2StepsFull
+ER   : 0.2275238037109375
+ME   : 34.0
+NoEB : 9.74289322041291
+
+Signed Threshold 0.75 + Balanced BW 5 Variant: 2StepsTrunc
+ER   : 0.96484375
+ME   : 226.25
+NoEB : 7.889319010083717
 ========================
 Python tests were successful!

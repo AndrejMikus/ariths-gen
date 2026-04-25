@@ -63,20 +63,33 @@ from ariths_gen.multi_bit_circuits.multipliers import (
 from ariths_gen.multi_bit_circuits.approximate_multipliers import (
     UnsignedTruncatedArrayMultiplier,
     UnsignedTruncatedCarrySaveMultiplier,
+
     UnsignedBrokenArrayMultiplier,
     UnsignedBrokenCarrySaveMultiplier,
+
     UnsignedRecursiveMultiplier,
     UnsignedAccurateTwoBitMultiplier,
+
     UnsignedApproxCompressorBasedMultiplier,
     SignedApproxCompressorBasedMultiplier,
+
     UnsignedQuarterApproxCompressorMultiplier,
     SignedQuarterApproxCompressorMultiplier,
+
     UnsignedThresholdApproxCompressorMultiplier,
     SignedThresholdApproxCompressorMultiplier,
-    UnsignedApproxPredefinedCompressorBWMultiplier,
-    SignedApproxPredefinedCompressorBWMultiplier,
-    UnsignedThresholdPredefinedBWApproxCompressorMultiplier,
-    SignedThresholdPredefinedBWApproxCompressorMultiplier,
+
+    UnsignedApproxGreedyPredefinedCompressorBWMultiplier,
+    SignedApproxGreedyPredefinedCompressorBWMultiplier,
+    
+    UnsignedThresholdGreedyPredefinedBWApproxCompressorMultiplier,
+    SignedThresholdGreedyPredefinedBWApproxCompressorMultiplier,
+
+    UnsignedApproxBalancedPredefinedBWCompressorMultiplier,
+    SignedApproxBalancedPredefinedBWCompressorMultiplier,
+
+    UnsignedThresholdBalancedPredefinedBWApproxCompressorMultiplier,
+    SignedThresholdBalancedPredefinedBWApproxCompressorMultiplier,
 )
 
 from ariths_gen.one_bit_circuits.logic_gates import (
@@ -332,7 +345,7 @@ def test_unsigned_approx_predefined_compressor_bw_mul(bw):
 
     for variant in variants:
         ER, ME, NoEB = evaluate_error_metrics(
-            UnsignedApproxPredefinedCompressorBWMultiplier,
+            UnsignedApproxGreedyPredefinedCompressorBWMultiplier,
             N=N,
             variant=variant,
             max_compressor_bw=bw
@@ -352,7 +365,7 @@ def test_signed_approx_predefined_compressor_bw_mul(bw):
 
     for variant in variants:
         ER, ME, NoEB = evaluate_error_metrics(
-            SignedApproxPredefinedCompressorBWMultiplier,
+            SignedApproxGreedyPredefinedCompressorBWMultiplier,
             N=N,
             variant=variant,
             signed=True,
@@ -373,14 +386,14 @@ def test_unsigned_threshold_predefined_bw_approx_compressor_mul(threshold, bw):
 
     for variant in variants:
         ER, ME, NoEB = evaluate_error_metrics(
-            UnsignedThresholdPredefinedBWApproxCompressorMultiplier,
+            UnsignedThresholdGreedyPredefinedBWApproxCompressorMultiplier,
             N=N,
             variant=variant,
             height_threshold=threshold,
             max_compressor_bw=bw
         )
 
-        print(f"\nUnsigned Threshold {threshold} + Predefined BW {bw} Variant:", variant)
+        print(f"\nUnsigned Threshold {threshold} + Greedy Predefined BW {bw} Variant:", variant)
         print("ER   :", ER)
         print("ME   :", ME)
         print("NoEB :", NoEB)
@@ -394,7 +407,7 @@ def test_signed_threshold_predefined_bw_approx_compressor_mul(threshold, bw):
 
     for variant in variants:
         ER, ME, NoEB = evaluate_error_metrics(
-            SignedThresholdPredefinedBWApproxCompressorMultiplier,
+            SignedThresholdGreedyPredefinedBWApproxCompressorMultiplier,
             N=N,
             variant=variant,
             signed=True,
@@ -402,7 +415,90 @@ def test_signed_threshold_predefined_bw_approx_compressor_mul(threshold, bw):
             max_compressor_bw=bw
         )
 
-        print(f"\nSigned Threshold {threshold} + Predefined BW {bw} Variant:", variant)
+        print(f"\nSigned Threshold {threshold} + Greedy Predefined BW {bw} Variant:", variant)
+        print("ER   :", ER)
+        print("ME   :", ME)
+        print("NoEB :", NoEB)
+    print("========================")
+
+def test_unsigned_approx_balanced_predefined_compressor_bw_mul(bw):
+    N = 8
+
+    variants = ["1StepFull", "1StepTrunc", "2StepsFull", "2StepsTrunc"]
+
+    for variant in variants:
+        ER, ME, NoEB = evaluate_error_metrics(
+            UnsignedApproxBalancedPredefinedBWCompressorMultiplier,
+            N=N,
+            variant=variant,
+            max_compressor_bw=bw
+        )
+
+        print(f"\nUnsigned Balanced Predefined Compressor BW {bw} Variant:", variant)
+        print("ER   :", ER)
+        print("ME   :", ME)
+        print("NoEB :", NoEB)
+    print("========================")
+
+
+def test_signed_approx_balanced_predefined_compressor_bw_mul(bw):
+    N = 8
+
+    variants = ["1StepFull", "1StepTrunc", "2StepsFull", "2StepsTrunc"]
+
+    for variant in variants:
+        ER, ME, NoEB = evaluate_error_metrics(
+            SignedApproxBalancedPredefinedBWCompressorMultiplier,
+            N=N,
+            variant=variant,
+            signed=True,
+            max_compressor_bw=bw
+        )
+
+        print(f"\nSigned Balanced Predefined Compressor BW {bw} Variant:", variant)
+        print("ER   :", ER)
+        print("ME   :", ME)
+        print("NoEB :", NoEB)
+    print("========================")
+
+
+def test_unsigned_threshold_balanced_predefined_bw_approx_compressor_mul(threshold, bw):
+    N = 8
+
+    variants = ["1StepFull", "1StepTrunc", "2StepsFull", "2StepsTrunc"]
+
+    for variant in variants:
+        ER, ME, NoEB = evaluate_error_metrics(
+            UnsignedThresholdBalancedPredefinedBWApproxCompressorMultiplier,
+            N=N,
+            variant=variant,
+            height_threshold=threshold,
+            max_compressor_bw=bw
+        )
+
+        print(f"\nUnsigned Threshold {threshold} + Balanced BW {bw} Variant:", variant)
+        print("ER   :", ER)
+        print("ME   :", ME)
+        print("NoEB :", NoEB)
+    print("========================")
+
+
+def test_signed_threshold_balanced_predefined_bw_approx_compressor_mul(threshold, bw):
+    N = 8
+
+    variants = ["1StepFull", "1StepTrunc", "2StepsFull", "2StepsTrunc"]
+
+    for variant in variants:
+        ER, ME, NoEB = evaluate_error_metrics(
+            SignedThresholdBalancedPredefinedBWApproxCompressorMultiplier,
+            N=N,
+            variant=variant,
+            signed=True,
+            height_threshold=threshold,
+            max_compressor_bw=bw
+        )
+
+        print(f"\nSigned Threshold {threshold} + Balanced BW {bw} Variant:", variant)
         print("ER   :", ER)
         print("ME   :", ME)
         print("NoEB :", NoEB)
@@ -691,12 +787,17 @@ if __name__ == "__main__":
     for bw in compressor_bws:
         test_unsigned_approx_predefined_compressor_bw_mul(bw=bw)
         test_signed_approx_predefined_compressor_bw_mul(bw=bw)
+        test_unsigned_approx_balanced_predefined_compressor_bw_mul(bw=bw)
+        test_signed_approx_balanced_predefined_compressor_bw_mul(bw=bw)
 
     print("#######################")
     for threshold in thresholds:
         for bw in compressor_bws:
             test_unsigned_threshold_predefined_bw_approx_compressor_mul(threshold=threshold, bw=bw)
             test_signed_threshold_predefined_bw_approx_compressor_mul(threshold=threshold, bw=bw)
+            test_unsigned_threshold_balanced_predefined_bw_approx_compressor_mul(threshold=threshold, bw=bw)
+            test_signed_threshold_balanced_predefined_bw_approx_compressor_mul(threshold=threshold, bw=bw)
+
     """ 
         test_unsigned_mul()
         test_signed_mul()

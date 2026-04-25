@@ -543,7 +543,7 @@ class SignedThresholdApproxCompressorMultiplier(SignedApproxCompressorBasedMulti
         return UnsignedThresholdApproxCompressorMultiplier.allocate_compressors(self)
 
     
-class UnsignedApproxPredefinedCompressorBWMultiplier(UnsignedApproxCompressorBasedMultiplier):
+class UnsignedApproxGreedyPredefinedCompressorBWMultiplier(UnsignedApproxCompressorBasedMultiplier):
     """
     Unsigned multiplier that splits approximate compression into compressors
     with a limited maximum width given by a parameter.
@@ -585,7 +585,7 @@ class UnsignedApproxPredefinedCompressorBWMultiplier(UnsignedApproxCompressorBas
             while j >= lowest_range_compr_bw:
                 current_bw = min(j, self.max_compressor_bw)
                 
-                # prepare current_bw bits to compression
+                # prepare current_bw bits for compression
                 wires_to_compress = [self.add_column_wire(column=column_idx, bit=i) for i in range(current_bw)]
                 compressor_in_bus = Bus(
                     prefix=f"{self.prefix}_compr_in_{column_idx}_{self.get_instance_num(cls=GeneralApproxMtoNCompressor)}",
@@ -619,7 +619,7 @@ class UnsignedApproxPredefinedCompressorBWMultiplier(UnsignedApproxCompressorBas
                 else:
                     self.add_full_adder(column_idx, prefix_suffix="fa_exact")
 
-class SignedApproxPredefinedCompressorBWMultiplier(SignedApproxCompressorBasedMultiplier):
+class SignedApproxGreedyPredefinedCompressorBWMultiplier(SignedApproxCompressorBasedMultiplier):
     """
     Signed multiplier that splits approximate compression into compressors
     with a limited maximum width given by a parameter.
@@ -631,10 +631,10 @@ class SignedApproxPredefinedCompressorBWMultiplier(SignedApproxCompressorBasedMu
         super().__init__(*args, **kwargs)
 
     def connect_components(self, column_idx, fa_count, ha_count, j, use_approx):
-        return UnsignedApproxPredefinedCompressorBWMultiplier.connect_components(self, column_idx, fa_count, ha_count, j, use_approx)
+        return UnsignedApproxGreedyPredefinedCompressorBWMultiplier.connect_components(self, column_idx, fa_count, ha_count, j, use_approx)
 
 
-class UnsignedThresholdPredefinedBWApproxCompressorMultiplier(UnsignedThresholdApproxCompressorMultiplier):
+class UnsignedThresholdGreedyPredefinedBWApproxCompressorMultiplier(UnsignedThresholdApproxCompressorMultiplier):
     """
     Combines reduction approach from threshold multiplier and the multiplier
     with the maximum input width of compressors. Unsigned version.
@@ -646,9 +646,9 @@ class UnsignedThresholdPredefinedBWApproxCompressorMultiplier(UnsignedThresholdA
         super().__init__(*args, **kwargs)
 
     def connect_components(self, column_idx, fa_count, ha_count, j, use_approx):
-        return UnsignedApproxPredefinedCompressorBWMultiplier.connect_components(self, column_idx, fa_count, ha_count, j, use_approx)
+        return UnsignedApproxGreedyPredefinedCompressorBWMultiplier.connect_components(self, column_idx, fa_count, ha_count, j, use_approx)
     
-class SignedThresholdPredefinedBWApproxCompressorMultiplier(SignedThresholdApproxCompressorMultiplier):
+class SignedThresholdGreedyPredefinedBWApproxCompressorMultiplier(SignedThresholdApproxCompressorMultiplier):
     """
     Combines reduction approach from threshold multiplier and the multiplier
     with the maximum input width of compressors. Signed version.
@@ -660,4 +660,135 @@ class SignedThresholdPredefinedBWApproxCompressorMultiplier(SignedThresholdAppro
         super().__init__(*args, **kwargs)
 
     def connect_components(self, column_idx, fa_count, ha_count, j, use_approx):
-        return UnsignedApproxPredefinedCompressorBWMultiplier.connect_components(self, column_idx, fa_count, ha_count, j, use_approx)
+        return UnsignedApproxGreedyPredefinedCompressorBWMultiplier.connect_components(self, column_idx, fa_count, ha_count, j, use_approx)
+
+
+class UnsignedApproxBalancedPredefinedBWCompressorMultiplier(UnsignedApproxCompressorBasedMultiplier):
+    """
+    Reduces one column using full adders, half adders and approx. compressors.
+    Uses balanced partitioning. Unsigned variant.
+    """
+    def __init__(self, *args, max_compressor_bw=3, **kwargs):
+        # set max compressor bandwidth
+        assert(max_compressor_bw >= 3)
+        self.max_compressor_bw = max_compressor_bw
+        super().__init__(*args, **kwargs)
+
+    def connect_components(self, column_idx, fa_count, ha_count, j, use_approx):
+        """
+        Reduces one column using full adders, half adders and approx. compressors.
+        Uses balanced partitioning of bits to approximate between compressors.
+        """
+        # apply fa_count full adders
+        for _ in range(fa_count):
+            if self.get_column_height(column_idx) < 3:
+                break
+            self.add_full_adder(column_idx)
+
+        # apply ha_count half adders
+        for _ in range(ha_count):
+            if self.get_column_height(column_idx) < 2:
+                break
+            self.add_half_adder(column_idx)
+
+        current_height = self.get_column_height(column_idx)
+        lowest_range_compr_bw = 3
+        
+        if use_approx:
+            j = min(j, current_height)
+
+            # total number of compressors in a column
+            compr_count = math.ceil(j / self.max_compressor_bw)
+
+            # each compressor must have at least minimum width
+            while compr_count > 0 and compr_count * lowest_range_compr_bw > j:
+                compr_count -= 1
+
+            if compr_count > 0:
+                compr_base_bw = j // compr_count
+                # number of wider compressors
+                r = j % compr_count
+                compressor_widths = [compr_base_bw + 1] * r + [compr_base_bw] * (compr_count - r)
+            else:
+                compressor_widths = []
+
+            
+            bits_consumed_total = 0
+            compressor_out_bits_total = 0
+
+            for current_bw in compressor_widths:
+                # prepare current_bw bits for compression
+                wires_to_compress = [self.add_column_wire(column=column_idx, bit=i) for i in range(current_bw)]
+                compressor_in_bus = Bus(
+                    prefix=f"{self.prefix}_compr_in_{column_idx}_{self.get_instance_num(cls=GeneralApproxMtoNCompressor)}",
+                    wires_list=wires_to_compress,
+                )
+                compressor = GeneralApproxMtoNCompressor(
+                    a=compressor_in_bus,
+                    prefix=f"{self.prefix}_compr_{column_idx}_{self.get_instance_num(cls=GeneralApproxMtoNCompressor)}",
+                    inner_component=True,
+                )
+                self.add_component(compressor)
+
+                # replace the used bits with compressor output bits
+                for _ in range(current_bw):
+                    self.columns[column_idx].pop(1)
+                for i in range(compressor.out.N):
+                    self.columns[column_idx].insert(len(self.columns[column_idx]), compressor.out.get_wire(i))
+
+                bits_consumed_total += current_bw
+                compressor_out_bits_total += compressor.out.N
+
+            self.update_column_heights(curr_column=column_idx, curr_height_change=-(bits_consumed_total - compressor_out_bits_total))
+
+        else:
+            # use dadda-like reduction
+            while self.get_column_height(column_idx) > self.h_max_next:
+                if self.get_column_height(column_idx) == self.h_max_next + 1:
+                    self.add_half_adder(column_idx)
+                else:
+                    self.add_full_adder(column_idx, prefix_suffix="fa_exact")
+
+class SignedApproxBalancedPredefinedBWCompressorMultiplier(SignedApproxCompressorBasedMultiplier):
+    """
+    Reduces one column using full adders, half adders and approx. compressors.
+    Uses balanced partitioning. Signed variant.
+    """
+    def __init__(self, *args, max_compressor_bw=3, **kwargs):
+        # set max compressor bandwidth
+        assert(max_compressor_bw >= 3)
+        self.max_compressor_bw = max_compressor_bw
+        super().__init__(*args, **kwargs)
+
+    def connect_components(self, column_idx, fa_count, ha_count, j, use_approx):
+        return UnsignedApproxBalancedPredefinedBWCompressorMultiplier.connect_components(self, column_idx, fa_count, ha_count, j, use_approx)
+    
+
+class UnsignedThresholdBalancedPredefinedBWApproxCompressorMultiplier(UnsignedThresholdApproxCompressorMultiplier):
+    """
+    Combines reduction approach from threshold multiplier and the multiplier
+    with the maximum input width of compressors. Unsigned version.
+    """
+    def __init__(self, *args, max_compressor_bw=3, **kwargs):
+        # set max compressor bandwidth
+        assert(max_compressor_bw >= 3)
+        self.max_compressor_bw = max_compressor_bw
+        super().__init__(*args, **kwargs)
+
+    def connect_components(self, column_idx, fa_count, ha_count, j, use_approx):
+        return UnsignedApproxBalancedPredefinedBWCompressorMultiplier.connect_components(self, column_idx, fa_count, ha_count, j, use_approx)
+    
+
+class SignedThresholdBalancedPredefinedBWApproxCompressorMultiplier(SignedThresholdApproxCompressorMultiplier):
+    """
+    Combines reduction approach from threshold multiplier and the multiplier
+    with the maximum input width of compressors. Signed version.
+    """
+    def __init__(self, *args, max_compressor_bw=3, **kwargs):
+        # set max compressor bandwidth
+        assert(max_compressor_bw >= 3)
+        self.max_compressor_bw = max_compressor_bw
+        super().__init__(*args, **kwargs)
+
+    def connect_components(self, column_idx, fa_count, ha_count, j, use_approx):
+        return UnsignedApproxBalancedPredefinedBWCompressorMultiplier.connect_components(self, column_idx, fa_count, ha_count, j, use_approx)

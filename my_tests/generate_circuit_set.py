@@ -12,6 +12,11 @@ from ariths_gen.multi_bit_circuits.adders import (
     UnsignedBrentKungAdder,
 )
 
+from ariths_gen.multi_bit_circuits.multipliers import (
+    UnsignedDaddaMultiplier,
+    SignedDaddaMultiplier,
+)
+
 from ariths_gen.multi_bit_circuits.approximate_multipliers import (
     UnsignedApproxCompressorBasedMultiplier,
     SignedApproxCompressorBasedMultiplier,
@@ -19,10 +24,14 @@ from ariths_gen.multi_bit_circuits.approximate_multipliers import (
     SignedQuarterApproxCompressorMultiplier,
     UnsignedThresholdApproxCompressorMultiplier,
     SignedThresholdApproxCompressorMultiplier,
-    UnsignedApproxPredefinedCompressorBWMultiplier,
-    SignedApproxPredefinedCompressorBWMultiplier,
-    UnsignedThresholdPredefinedBWApproxCompressorMultiplier,
-    SignedThresholdPredefinedBWApproxCompressorMultiplier,
+    UnsignedApproxGreedyPredefinedCompressorBWMultiplier,
+    SignedApproxGreedyPredefinedCompressorBWMultiplier,
+    UnsignedThresholdGreedyPredefinedBWApproxCompressorMultiplier,
+    SignedThresholdGreedyPredefinedBWApproxCompressorMultiplier,
+    UnsignedApproxBalancedPredefinedBWCompressorMultiplier,
+    SignedApproxBalancedPredefinedBWCompressorMultiplier,
+    UnsignedThresholdBalancedPredefinedBWApproxCompressorMultiplier,
+    SignedThresholdBalancedPredefinedBWApproxCompressorMultiplier,
 )
 
 bus_lengths = [4, 6, 8, 10, 12, 16, 20]
@@ -51,13 +60,25 @@ multiplier_groups = {
         "unsigned": UnsignedThresholdApproxCompressorMultiplier,
         "signed": SignedThresholdApproxCompressorMultiplier,
     },
-    "predefined_bw": {
-        "unsigned": UnsignedApproxPredefinedCompressorBWMultiplier,
-        "signed": SignedApproxPredefinedCompressorBWMultiplier,
+    "predefined_bw_greedy": {
+        "unsigned": UnsignedApproxGreedyPredefinedCompressorBWMultiplier,
+        "signed": SignedApproxGreedyPredefinedCompressorBWMultiplier,
     },
-    "threshold_predefined_bw": {
-        "unsigned": UnsignedThresholdPredefinedBWApproxCompressorMultiplier,
-        "signed": SignedThresholdPredefinedBWApproxCompressorMultiplier,
+    "threshold_predefined_bw_greedy": {
+        "unsigned": UnsignedThresholdGreedyPredefinedBWApproxCompressorMultiplier,
+        "signed": SignedThresholdGreedyPredefinedBWApproxCompressorMultiplier,
+    },
+    "predefined_bw_balanced": {
+        "unsigned": UnsignedApproxBalancedPredefinedBWCompressorMultiplier,
+        "signed": SignedApproxBalancedPredefinedBWCompressorMultiplier,
+    },
+    "threshold_predefined_bw_balanced": {
+        "unsigned": UnsignedThresholdBalancedPredefinedBWApproxCompressorMultiplier,
+        "signed": SignedThresholdBalancedPredefinedBWApproxCompressorMultiplier,
+    },
+    "exact": {
+        "unsigned": UnsignedDaddaMultiplier,
+        "signed": SignedDaddaMultiplier,
     },
 }
 
@@ -89,7 +110,17 @@ for signedness in ["unsigned", "signed"]:
                 out_dir = f"_verilog_circuit/{signedness}/{n}x{n}/{group_name}/{adder_name}"
                 ensure_dir(out_dir)
 
-                if group_name in ["basic", "quarter"]:
+                if group_name == "exact":
+                    out_file = f"{out_dir}/exact.v"
+                    generate_and_store(
+                        multiplier_cls,
+                        a,
+                        b,
+                        adder_cls,
+                        out_file,
+                    )
+
+                elif group_name in ["basic", "quarter"]:
                     for variant in variants:
                         out_file = f"{out_dir}/{variant}.v"
                         generate_and_store(
@@ -116,7 +147,7 @@ for signedness in ["unsigned", "signed"]:
                                 height_threshold=threshold,
                             )
 
-                elif group_name == "predefined_bw":
+                elif group_name in ["predefined_bw_greedy", "predefined_bw_balanced"]:
                     for bw in compressor_bws:
                         for variant in variants:
                             out_file = f"{out_dir}/bw_{bw}_{variant}.v"
@@ -130,7 +161,7 @@ for signedness in ["unsigned", "signed"]:
                                 max_compressor_bw=bw,
                             )
 
-                elif group_name == "threshold_predefined_bw":
+                elif group_name in ["threshold_predefined_bw_greedy", "threshold_predefined_bw_balanced"]:
                     for threshold in thresholds:
                         threshold_tag = str(threshold).replace(".", "p")
                         for bw in compressor_bws:

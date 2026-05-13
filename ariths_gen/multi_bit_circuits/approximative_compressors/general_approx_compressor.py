@@ -1,3 +1,10 @@
+# Filename: general_approx_compressor.py
+# Author: Andrej Mikus
+# Description: Implements architecture of approximate j : ceil(j/2) compressors,
+#              where j is in range <2,6> for lower-order compressors and more 
+#              than 6 for higher-order compressors
+# This file was create with help of Google Gemini tool
+
 from ariths_gen.one_bit_circuits.logic_gates import (
     OrGate,
     AndGate,

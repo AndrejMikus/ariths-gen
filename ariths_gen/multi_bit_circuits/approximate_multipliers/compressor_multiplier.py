@@ -1,3 +1,14 @@
+# Filename: compressor_multiplier.py
+# Author: Andrej Mikus
+# Description: Implements architecture of approximate multipliers that use
+#              j : ceil(j/2) approximate compressors to reduce PPM
+#              There is basic multiplier and also additional reimplementations
+#              of the multiplier proposed in 
+#              `Esposito, D., Napoli, E., Strollo A.G., De Caro, D.:
+#              Approximate Multipliers Based on New Approximate Compressors`
+#
+# This file was create with help of Google Gemini and Github Copilot tools
+
 from ariths_gen.wire_components import Bus, ConstantWireValue0, ConstantWireValue1
 from ariths_gen.core.arithmetic_circuits import MultiplierCircuit
 from ariths_gen.one_bit_circuits.one_bit_components import HalfAdder, FullAdder

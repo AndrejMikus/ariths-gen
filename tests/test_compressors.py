@@ -1,3 +1,15 @@
+# Filename: test_compressors.py
+# Description: This script tests lower order (input bit widths 2 to 6) 
+# approximate compressors from Esposito et al. study.
+# The output is represented by five tables describing error characteristics for each input combination.
+# Author: Andrej Mikus
+# This file was created with help of Google Gemini tool
+
+from ariths_gen.wire_components import Bus
+from ariths_gen.multi_bit_circuits.approximative_compressors.general_approx_compressor import (
+    LowerOrderApproxMtoNCompressor,
+)
+
 import os
 import sys
 import itertools
@@ -9,11 +21,6 @@ DIR_PATH = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(DIR_PATH, '..'))
 
 
-from ariths_gen.wire_components import Bus
-from ariths_gen.multi_bit_circuits.approximative_compressors.general_approx_compressor import (
-    LowerOrderApproxMtoNCompressor,
-    GeneralApproxMtoNCompressor
-)
 
 P_ONE  = Fraction(1, 4)   # Probability that product of multiplication of 2 bits is ONE
 P_ZERO = Fraction(3, 4)   # Probability that product is ZERO
@@ -44,8 +51,6 @@ def test_lower_order_compressor(N):
     """
         Tests lower order compressor.
         Prints result table on stdout.
-        TODO: Add some asserts (so there isno need to look up 
-            correct values in the paper)
     """
     print(f"\n======================== {N} : {ceil(N/2)} compressor ========================")
     bits = tuple(f"p{i}" for i in reversed(range(N)))
